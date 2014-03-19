@@ -1,0 +1,43 @@
+{
+  "name": "fontfacegen",
+  "description": "Browser font-face generator for creating browser usable fonts from ttf's or otf's",
+  "version": "0.1.0",
+  "homepage": "https://github.com/agentk/fontfacegen",
+  "author": {
+    "name": "Karl Bowden",
+    "email": "karlbowden@gmail.com",
+    "url": "http://karlbowden.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/agentk/fontfacegen.git"
+  },
+  "bugs": {
+    "url": "https://github.com/agentk/fontfacegen/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/agentk/fontfacegen/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "main": "fontfacegen.js",
+  "keywords": [
+    "fontface",
+    "webfonts",
+    "ttf",
+    "otf",
+    "svg",
+    "eot",
+    "css"
+  ],
+  "dependencies": {
+    "execSync": "~1.0.1-pre"
+  }
+}
