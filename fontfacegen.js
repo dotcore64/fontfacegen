@@ -99,7 +99,7 @@ generateConfig = function(options) {
     _.style        = getFontStyle(_.source);
 
     if (fs.existsSync(_.config_file)) {
-        merge(_, require(_.config_file));
+        merge(_, JSON.parse(fs.readFileSync(_.config_file)));
     }
 
     merge(_, options);
