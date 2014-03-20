@@ -157,7 +157,9 @@ generateStylesheet = function(config) {
     var name, filename, weight, style, stylesheet, result, woff, ttf;
 
     name       = config.name;
-    filename   = path.join(config.css_fontpath, config.basename);
+    filename   = (config.collate)
+        ? path.join(config.css_fontpath, config.basename)
+        : path.join(config.css_fontpath, config.basename, config.basename);
     weight     = config.weight;
     style      = config.style;
     stylesheet = config.css;
