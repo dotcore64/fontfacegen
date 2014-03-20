@@ -15,11 +15,14 @@ for (var i = fonts.length - 1; i >= 0; i--) {
     var extension = path.extname(font);
     var fontname = path.basename(font, extension);
 
+    // Test with embedded ttf
     if (extension == '.ttf' || extension == '.otf') {
         fontfacegen({
             source: path.join(source, font),
             dest: dest,
-            css_fontpath: '../fonts/'
+            css_fontpath: '../fonts/',
+            embed: ['ttf'],
+            collate: true
         });
     }
 };

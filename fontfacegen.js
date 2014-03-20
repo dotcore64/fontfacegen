@@ -10,9 +10,10 @@
 
 var
 
-fs = require('fs'),
-path = require('path'),
-sh = require('execSync'),
+fs     = require('fs'),
+path   = require('path'),
+sh     = require('execSync'),
+mkdirp = require('mkdirp'),
 
 requiredCommands = ['fontforge', 'ttfautohint', 'ttf2eot', 'batik-ttf2svg'],
 
@@ -37,7 +38,7 @@ generateFontFace = function(options) {
     generateGlobals(options);
     var config = generateConfig(options);
 
-    createDestinationDirectory(config.dest);
+    createDestinationDirectory(config.dest_dir);
     generateTtf(config);
     generateEot(config);
     generateSvg(config);
@@ -80,13 +81,15 @@ generateGlobals = function(options) {
 
 generateConfig = function(options) {
     var _ = {
-        source: options.source,
-        dest: options.dest
+        source   : options.source,
+        dest_dir : options.dest,
+        collate  : options.collate || false
     };
 
     _.extension    = path.extname(_.source);
     _.basename     = path.basename(_.source, _.extension);
-    _.target       = path.join(_.dest, _.basename);
+    _.dest_dir     = _.collate ? path.join(_.dest_dir, _.basename) : _.dest_dir;
+    _.target       = path.join(_.dest_dir, _.basename);
     _.config_file  = _.source.replace(_.extension, '') + '.json';
     _.ttf          = [_.target, '.ttf'].join('');
     _.eot          = [_.target, '.eot'].join('');
@@ -97,6 +100,7 @@ generateConfig = function(options) {
     _.name         = getFontName(_.source);
     _.weight       = getFontWeight(_.source);
     _.style        = getFontStyle(_.source);
+    _.embed        = [];
 
     if (fs.existsSync(_.config_file)) {
         merge(_, JSON.parse(fs.readFileSync(_.config_file)));
@@ -109,7 +113,7 @@ generateConfig = function(options) {
 
 createDestinationDirectory = function(dest) {
     if (!fs.existsSync(dest)) {
-        fs.mkdirSync(dest);
+        mkdirp.sync(dest);
     }
 },
 
@@ -150,21 +154,30 @@ generateWoff = function(config) {
 },
 
 generateStylesheet = function(config) {
-    var name, filename, weight, style, stylesheet, result;
+    var name, filename, weight, style, stylesheet, result, woff, ttf;
 
     name       = config.name;
     filename   = path.join(config.css_fontpath, config.basename);
     weight     = config.weight;
     style      = config.style;
     stylesheet = config.css;
+    woff       = '"' + filename + '.woff"';
+    ttf        = '"' + filename + '.ttf"';
+
+    if (has(config.embed, 'woff')) {
+        woff = embedFont(config.woff);
+    }
+    if (has(config.embed, 'ttf')) {
+        ttf = embedFont(config.ttf);
+    }
 
     result = [
         '@font-face {',
         '    font-family: "' + name + '";',
         '    src: url("' + filename + '.eot");',
         '    src: url("' + filename + '.eot?#iefix") format("embedded-opentype"),',
-        '         url("' + filename + '.woff") format("woff"),',
-        '         url("' + filename + '.ttf") format("truetype"),',
+        '         url('  + woff     + ') format("woff"),',
+        '         url('  + ttf      + ') format("truetype"),',
         '         url("' + filename + '.svg#' + name + '") format("svg");',
         '    font-weight: ' + weight + ';',
         '    font-style: ' + style + ';',
@@ -292,8 +305,27 @@ ttf2svg = function(source, target, name) {
     return result;
 },
 
+// Convert font file to data:uri and *remove* source file.
+embedFont = function(fontFile) {
+    var dataUri, type, fontUrl;
+
+    // Convert to data:uri
+    dataUri = fs.readFileSync(fontFile, 'base64');
+    type = path.extname(fontFile).substring(1);
+    fontUrl = 'data:application/x-font-' + type + ';charset=utf-8;base64,' + dataUri;
+
+    // Remove source file
+    fs.unlinkSync(fontFile);
+
+    return fontUrl;
+},
+
 quote = function(str) {
     return '"' + str + '"';
+},
+
+has = function(haystack, needle) {
+    return haystack.indexOf(needle) !== -1;
 };
 
 
