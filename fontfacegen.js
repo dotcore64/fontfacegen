@@ -158,8 +158,8 @@ generateStylesheet = function(config) {
 
     name       = config.name;
     filename   = (config.collate)
-        ? path.join(config.css_fontpath, config.basename)
-        : path.join(config.css_fontpath, config.basename, config.basename);
+        ? path.join(config.css_fontpath, config.basename, config.basename)
+        : path.join(config.css_fontpath, config.basename);
     weight     = config.weight;
     style      = config.style;
     stylesheet = config.css;
