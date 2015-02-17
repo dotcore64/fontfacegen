@@ -43,7 +43,7 @@
     "css"
   ],
   "dependencies": {
-    "execSync": "~1.0.1-pre",
+    "sync-exec": "^0.4.0",
     "mkdirp": "^0.3.5"
   }
 }

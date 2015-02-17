@@ -1,14 +1,14 @@
 
 var fs          = require('fs');
 var path        = require('path');
-var sh          = require('execSync');
+var exec        = require('sync-exec');
 var fontfacegen = require('./fontfacegen');
 
 var source = 'tmp/';
 var dest   = 'tmp/dest/';
 var fonts  = fs.readdirSync(source);
 
-sh.exec('rm -rf ' + dest);
+exec('rm -rf ' + dest);
 
 for (var i = fonts.length - 1; i >= 0; i--) {
     var font = fonts[i];

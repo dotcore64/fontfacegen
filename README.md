@@ -98,28 +98,28 @@ Note: If present, the json config file must be valid json.
 
     var fs          = require('fs');
     var path        = require('path');
-    var sh          = require('execSync');
+    var exec        = require('sync-exec');
     var fontfacegen = require('./fontfacegen');
 
-    var source = 'assets/fonts/';
-    var dest   = 'fonts/';
+    var source = 'tmp/';
+    var dest   = 'tmp/dest/';
     var fonts  = fs.readdirSync(source);
 
-    sh.exec('rm -rf ' + dest);
+    exec('rm -rf ' + dest);
 
     for (var i = fonts.length - 1; i >= 0; i--) {
         var font = fonts[i];
         var extension = path.extname(font);
         var fontname = path.basename(font, extension);
 
+        // Test with embedded ttf
         if (extension == '.ttf' || extension == '.otf') {
             fontfacegen({
                 source: path.join(source, font),
                 dest: dest,
-                css: dest + 'css/' + fontname + '.css',
-                css_fontpath: '../fonts/' + fontname,
-                collate: true,
-                embed: ['woff', 'ttf']
+                css_fontpath: '../fonts/',
+                embed: ['ttf'],
+                collate: true
             });
         }
     };
