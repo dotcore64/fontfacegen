@@ -12,7 +12,7 @@ var
 
 fs     = require('fs'),
 path   = require('path'),
-sh     = require('execSync'),
+exec   = require('sync-exec'),
 mkdirp = require('mkdirp'),
 
 requiredCommands = ['fontforge', 'ttfautohint', 'ttf2eot', 'batik-ttf2svg'],
@@ -237,8 +237,8 @@ merge = function(destination, source) {
 },
 
 commandPath = function(command) {
-    var result = sh.exec('which ' + command);
-    if (result.code == 0)
+    var result = exec('which ' + command);
+    if (result.status == 0)
         return result.stdout.trim();
     return false;
 },
@@ -260,8 +260,8 @@ fontforge = function() {
         command += ' \'' + arg + '\'';
     });
 
-    result = sh.exec(command + ' 2> /dev/null');
-    success = (result.code == 0);
+    result = exec(command + ' 2> /dev/null');
+    success = (result.status == 0);
 
     if (! success) {
         throw new FontFaceException(
@@ -278,8 +278,8 @@ ttf2eot = function(source, dest) {
 
     command = [globals.ttf2eot, quote(source), '>', quote(dest)].join(' ');
 
-    result = sh.exec(command);
-    success = (result.code == 0);
+    result = exec(command);
+    success = (result.status == 0);
 
     if (! success) {
         throw new FontFaceException(
@@ -295,8 +295,8 @@ ttf2svg = function(source, target, name) {
     var command, result, success;
 
     command = [globals['batik-ttf2svg'], quote(source), '-id', quote(name), '-o', quote(target)].join(' ');
-    result = sh.exec(command);
-    success = (result.code == 0);
+    result = exec(command);
+    success = (result.status == 0);
 
     if (! success) {
         throw new FontFaceException(
