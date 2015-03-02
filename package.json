@@ -1,7 +1,7 @@
 {
   "name": "fontfacegen",
   "description": "Browser font-face generator for creating browser usable fonts from ttf's or otf's",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "homepage": "https://github.com/agentk/fontfacegen",
   "author": {
     "name": "Karl Bowden",
@@ -44,6 +44,6 @@
   ],
   "dependencies": {
     "sync-exec": "^0.4.0",
-    "mkdirp": "^0.3.5"
+    "mkdirp": "^0.5.0"
   }
 }
