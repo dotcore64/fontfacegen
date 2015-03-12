@@ -12,7 +12,7 @@ var
 
 fs     = require('fs'),
 path   = require('path'),
-exec   = require('sync-exec'),
+child  = require('child_process'),
 mkdirp = require('mkdirp'),
 
 requiredCommands = ['fontforge', 'ttfautohint', 'ttf2eot', 'batik-ttf2svg'],
@@ -237,9 +237,11 @@ merge = function(destination, source) {
 },
 
 commandPath = function(command) {
-    var result = exec('which ' + command);
-    if (result.status == 0)
-        return result.stdout.trim();
+    var result = child.execSync('which ' + command, {
+        encoding: 'utf-8'
+    });
+    if (result)
+        return result.trim();
     return false;
 },
 
@@ -260,15 +262,14 @@ fontforge = function() {
         command += ' \'' + arg + '\'';
     });
 
-    result = exec(command + ' 2> /dev/null');
-    success = (result.status == 0);
+    result = child.execSync(command + ' 2> /dev/null');
+    success = result;
 
     if (! success) {
         throw new FontFaceException(
             'FontForge command failed\n' +
             'From command: ' + command + '\n' +
-            'Code: ' + result.code + '\n' +
-            result.stdout.trim());
+            result.trim());
     }
     return result;
 },
@@ -278,13 +279,14 @@ ttf2eot = function(source, dest) {
 
     command = [globals.ttf2eot, quote(source), '>', quote(dest)].join(' ');
 
-    result = exec(command);
-    success = (result.status == 0);
+    result = child.execSync(command);
+    success = result;
 
     if (! success) {
         throw new FontFaceException(
-            'ttf2eot exited with error code: ' + result.code + '\n' +
-            result.stdout.trim() + '\n' +
+            'ttf2eot command failed\n' +
+            'From command: ' + command + '\n' +
+            result.trim() + '\n' +
             'Your EOT file will probably not be in a working state');
     }
 
@@ -295,13 +297,14 @@ ttf2svg = function(source, target, name) {
     var command, result, success;
 
     command = [globals['batik-ttf2svg'], quote(source), '-id', quote(name), '-o', quote(target)].join(' ');
-    result = exec(command);
-    success = (result.status == 0);
+    result = child.execSync(command);
+    success = result;
 
     if (! success) {
         throw new FontFaceException(
-            'ttf2eot exited with error code: ' + result.code + '\n' +
-            result.stdout.trim() + '\n' +
+            'ttf2svg command failed\n' +
+            'From command: ' + command + '\n' +
+            result.trim() + '\n' +
             'Your SVG file will probably not be in a working state');
     }
     return result;
