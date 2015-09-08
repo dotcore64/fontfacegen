@@ -194,7 +194,7 @@ generateStylesheet = function(config) {
 
 getFontName = function(source) {
     var result = fontforge('Open($1);Print($fontname);', source);
-    if (result.code == 0) {
+    if (result.status == 0) {
         return result.stdout.trim().replace(' ', '_');
     }
     return false;
@@ -202,7 +202,7 @@ getFontName = function(source) {
 
 getFontWeight = function(source) {
     var result = fontforge('Open($1);Print($weight);', source);
-    if (result.code == 0) {
+    if (result.status == 0) {
         var weight = result.stdout.trim().replace(' ', '').toLowerCase();
         if (weight_table[weight])
             return weight_table[weight];
@@ -213,7 +213,7 @@ getFontWeight = function(source) {
 
 getFontStyle = function(source) {
     var result = fontforge('Open($1);Print($italicangle);', source);
-    if (result.code == 0) {
+    if (result.status == 0) {
         return (result.stdout.trim() == 0) ? 'normal' : 'italic';
     }
     return false;
