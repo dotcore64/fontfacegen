@@ -15,7 +15,7 @@ path   = require('path'),
 exec   = require('sync-exec'),
 mkdirp = require('mkdirp'),
 
-requiredCommands = ['fontforge', 'ttfautohint', 'ttf2eot', 'batik-ttf2svg'],
+requiredCommands = ['fontforge', 'ttfautohint', 'ttf2eot', 'batik'],
 
 weight_table = {
     thin:           '100',
@@ -294,7 +294,7 @@ ttf2eot = function(source, dest) {
 ttf2svg = function(source, target, name) {
     var command, result, success;
 
-    command = [globals['batik-ttf2svg'], quote(source), '-id', quote(name), '-o', quote(target)].join(' ');
+    command = [globals['batik'], quote(source), '-id', quote(name), '-o', quote(target)].join(' ');
     result = exec(command);
     success = (result.status == 0);
 
@@ -334,4 +334,3 @@ has = function(haystack, needle) {
 
 
 module.exports = generateFontFace;
-

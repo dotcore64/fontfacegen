@@ -12,7 +12,7 @@ font to be used in browers.
 
 - `fontforge`
 - `ttf2eot`
-- `batik-ttf2svg`
+- `batik`
 
 ### Installing on OS X
 
