@@ -277,12 +277,16 @@ fontforge = function() {
 ttf2eot = function(source, dest) {
     var command, result, success;
 
-    command = [globals.ttf2eot, quote(source), '>', quote(dest)].join(' ');
+    command = [globals.ttf2eot, quote(source)].join(' ');
 
     result = child.execSync(command);
     success = result;
 
-    if (! success) {
+    if (success) {
+        fs.writeFile(dest, result.stdout, function (err) {
+          if (err) return console.error(err);
+        });
+    } else {
         throw new FontFaceException(
             'ttf2eot command failed\n' +
             'From command: ' + command + '\n' +
