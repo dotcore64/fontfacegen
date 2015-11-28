@@ -13,7 +13,6 @@ var
 fs     = require('fs'),
 path   = require('path'),
 child  = require('child_process'),
-mkdirp = require('mkdirp'),
 
 requiredCommands = {
     fontforge: 'fontforge',
@@ -118,7 +117,7 @@ generateConfig = function(options) {
 
 createDestinationDirectory = function(dest) {
     if (!fs.existsSync(dest)) {
-        mkdirp.sync(dest);
+        child.execSync('mkdir -p ' + quote(dest));
     }
 },
 
