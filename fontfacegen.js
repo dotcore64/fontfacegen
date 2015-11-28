@@ -15,7 +15,12 @@ path   = require('path'),
 child  = require('child_process'),
 mkdirp = require('mkdirp'),
 
-requiredCommands = ['fontforge', 'ttfautohint', 'ttf2eot', 'batik-ttf2svg'],
+requiredCommands = {
+    fontforge: 'fontforge',
+    ttfautohint: 'ttfautohint',
+    ttf2eot: 'ttf2eot',
+    'batik-ttf2svg': 'batik',
+},
 
 weight_table = {
     thin:           '100',
@@ -57,14 +62,14 @@ generateGlobals = function(options) {
     var missing = [];
     globals = {};
 
-    requiredCommands.forEach(function(cmd){
+    Object.keys(requiredCommands).forEach(function(cmd){
         if (options[cmd]) {
             globals[cmd] = options[cmd];
         } else {
             globals[cmd] = commandPath(cmd);
         }
         if (!globals[cmd]) {
-            missing.push(cmd);
+            missing.push(requiredCommands[cmd]);
         }
     });
 
@@ -237,11 +242,20 @@ merge = function(destination, source) {
 },
 
 commandPath = function(command) {
-    var result = child.execSync('which ' + command, {
-        encoding: 'utf-8'
-    });
-    if (result)
-        return result.trim();
+    try {
+        var result = child.execSync('which ' + command, {
+            encoding: 'utf-8'
+        });
+        if (result) {
+            return result.trim();
+        }
+    }
+    catch (e) {
+        if (e.status == 1) {
+            return false;
+        }
+        throw(e);
+    }
     return false;
 },
 
