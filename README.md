@@ -2,7 +2,7 @@
 # fontfacegen
 
 From a ttf or otf, generate the required ttf, eot, woff, svg and css for the
-font to be used in browers.
+font to be used in browsers.
 
 ## Installing
 
@@ -20,7 +20,8 @@ font to be used in browers.
 
 ### Other platforms
 
-Help is required if you qould like to contribute instructions.
+Help is required to get `fontfacegen` running on Window and Linux.
+Any documentation on running on these platforms would be greatly appreciated.
 
 ## Usage:
 
@@ -44,6 +45,8 @@ Path to the destination folder for the converted fonts to be placed in.
 ### css:
 
 Path to the destination file to write the generated stylesheet to.
+
+Default = `null` (Guess the css filename from the font filename)
 
 ### css_fontpath:
 
@@ -82,7 +85,7 @@ Font name, style and weight can be specified manually per font in a json file of
 
 For example, for the font: `fonts/sans.ttf` the config file would be: `fonts/sans.json`.
 
-Exmaple file format:
+Example file format:
 
     {
         "name"   : "Super Sans",
@@ -98,14 +101,11 @@ Note: If present, the json config file must be valid json.
 
     var fs          = require('fs');
     var path        = require('path');
-    var exec        = require('sync-exec');
     var fontfacegen = require('./fontfacegen');
 
     var source = 'tmp/';
     var dest   = 'tmp/dest/';
     var fonts  = fs.readdirSync(source);
-
-    exec('rm -rf ' + dest);
 
     for (var i = fonts.length - 1; i >= 0; i--) {
         var font = fonts[i];
