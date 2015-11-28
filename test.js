@@ -1,28 +1,70 @@
 
-var fs          = require('fs');
-var path        = require('path');
-var exec        = require('sync-exec');
+var child = require('child_process');
+var fs = require('fs');
+var https = require('https');
+var path = require('path');
 var fontfacegen = require('./fontfacegen');
 
 var source = 'tmp/';
-var dest   = 'tmp/dest/';
-var fonts  = fs.readdirSync(source);
+var dest = 'tmp/dest/';
+var fileurl = 'https://raw.githubusercontent.com/google/fonts/master/apache/opensans/OpenSans-Regular.ttf';
+var filename = 'OpenSans-Regular.ttf';
+var sourcefile = source + filename;
 
-exec('rm -rf ' + dest);
+// -----
 
-for (var i = fonts.length - 1; i >= 0; i--) {
-    var font = fonts[i];
-    var extension = path.extname(font);
-    var fontname = path.basename(font, extension);
+cleanup(source, dest)
+  .then(downloadFileIfMissing(fileurl, sourcefile))
+  .then(processFont(sourcefile, dest))
+  .catch(function(err) {
+    console.error('ERROR TRACE: ', err);
+  });
 
-    // Test with embedded ttf
-    if (extension == '.ttf' || extension == '.otf') {
-        fontfacegen({
-            source: path.join(source, font),
-            dest: dest,
-            css_fontpath: '../fonts/',
-            embed: ['ttf'],
-            collate: true
-        });
-    }
-};
+// -----
+
+function cleanup(source, dest) {
+    child.execSync('rm -rf ' + dest);
+    child.execSync('mkdir -p ' + source);
+    return Promise.resolve();
+}
+
+function downloadFileIfMissing(url, dest) {
+  return function() {
+    return new Promise(function (resolve, reject) {
+      fs.access(dest, function(err) {
+        if (!err) {
+          return resolve();
+        }
+        download(url, dest).then(resolve, reject);
+      });
+    });
+  }
+}
+
+function download(url, dest) {
+  return new Promise(function(resolve, reject) {
+    var file = fs.createWriteStream(dest);
+    var request = https.get(url, function(response) {
+      response.pipe(file);
+      file.on('finish', function() {
+        file.close(resolve);
+      });
+    }).on('error', function(err) {
+      fs.unlink(dest);
+      reject(err.message);
+    });
+  });
+}
+
+function processFont(source, dest) {
+  return function(opt) {
+    fontfacegen({
+        source: source,
+        dest: dest,
+        css_fontpath: '../fonts/',
+        embed: ['ttf'],
+        collate: true
+    });
+    return Promise.resolve();
+  }
+}
