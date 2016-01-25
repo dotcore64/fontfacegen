@@ -14,15 +14,27 @@
 var
 
 fs     = require('fs'),
+os     = require('os'),
 path   = require('path'),
 child  = require('child_process'),
 
-requiredCommands = {
-    fontforge: 'fontforge',
-    ttfautohint: 'ttfautohint',
-    ttf2eot: 'ttf2eot',
-    'batik-ttf2svg': 'batik',
-},
+
+
+isLinux = os.type().toLowerCase() == "linux",
+
+requiredCommands = (function () {
+    requiredCommands = {
+        fontforge: 'fontforge',
+        ttfautohint: 'ttfautohint',
+        ttf2eot: 'ttf2eot',
+    };
+    if (isLinux) {
+        requiredCommands.ttf2svg = 'ttf2svg';
+    } else{
+        requiredCommands['batik-ttf2svg'] = 'batik';
+    }
+    return requiredCommands;
+})(),
 
 weight_table = {
     thin:           '100',
@@ -76,10 +88,28 @@ generateGlobals = function(options) {
     });
 
     if (missing.length) {
-        throw new FontFaceException(
-            'We are missing some required font packages.\n' +
-            'That can be installed with:\n' +
-            'brew install ' + missing.join(' '));
+        if (isLinux) {
+            var errNPM = [], errAPT = [];
+            missing.forEach(function(cmd){
+                if (cmd.indexOf("ttf2") != -1) {
+                    errNPM.push(cmd);
+                } else{
+                    errAPT.push(cmd);
+                }
+            });
+
+            throw new FontFaceException(
+                'We are missing some required font packages.\n' +
+                'That can be installed with:\n' +
+                (errAPT.length ? 'sudo apt-get install  ' + errAPT.join(' ') + '\n' : '') +
+                (errAPT.length && errNPM.length ? 'and' : '') +
+                (errNPM.length ? 'sudo npm install -g  ' + errNPM.join(' ') : ''));
+        } else{
+            throw new FontFaceException(
+                'We are missing some required font packages.\n' +
+                'That can be installed with:\n' +
+                'brew install ' + missing.join(' '));
+        }
     }
 
     // Only needs to be done once
@@ -312,7 +342,12 @@ ttf2eot = function(source, dest) {
 ttf2svg = function(source, target, name) {
     var command, result, success;
 
-    command = [globals['batik-ttf2svg'], quote(source), '-id', quote(name), '-o', quote(target)].join(' ');
+    if (isLinux) {
+        command = [globals.ttf2eot, quote(source), '>', quote(target)].join(' ');
+    } else{
+        command = [globals['batik-ttf2svg'], quote(source), '-id', quote(name), '-o', quote(target)].join(' ');
+    }
+    
     result = child.execSync(command);
     success = result;
 
