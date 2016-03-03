@@ -232,16 +232,16 @@ generateStylesheet = function(config) {
 
 getFontName = function(source) {
     var result = fontforge('Open($1);Print($fontname);', source);
-    if (result.status == 0) {
-        return result.stdout.trim().replace(' ', '_');
+    if (result) {
+        return result.trim().replace(' ', '_');
     }
     return false;
 },
 
 getFontWeight = function(source) {
     var result = fontforge('Open($1);Print($weight);', source);
-    if (result.status == 0) {
-        var weight = result.stdout.trim().replace(' ', '').toLowerCase();
+    if (result) {
+        var weight = result.trim().replace(' ', '').toLowerCase();
         if (weight_table[weight])
             return weight_table[weight];
         return weight;
@@ -251,8 +251,8 @@ getFontWeight = function(source) {
 
 getFontStyle = function(source) {
     var result = fontforge('Open($1);Print($italicangle);', source);
-    if (result.status == 0) {
-        return (result.stdout.trim() == 0) ? 'normal' : 'italic';
+    if (result) {
+        return (parseInt(result.trim()) === 0) ? 'normal' : 'italic';
     }
     return false;
 },
@@ -309,15 +309,15 @@ fontforge = function() {
         command += ' \'' + arg + '\'';
     });
 
-    result = child.execSync(command + ' 2> /dev/null');
-    success = result;
-
-    if (! success) {
+    try {
+        result = child.execSync(command + ' 2> /dev/null').toString();
+    } catch (e) {
         throw new FontFaceException(
-            'FontForge command failed\n' +
+            'FontForge command failed: ' + e.toString() + '\n' +
             'From command: ' + command + '\n' +
             result.trim());
     }
+
     return result;
 },
 
