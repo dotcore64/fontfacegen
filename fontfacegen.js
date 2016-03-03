@@ -40,6 +40,7 @@ requiredCommands = (function () {
 weight_table = {
     thin:           '100',
     extralight:     '200',
+    book:           '300',
     light:          '300',
     medium:         'normal',
     normal:         'normal',
@@ -59,8 +60,8 @@ generateFontFace = function(options) {
     var config = generateConfig(options);
 
     createDestinationDirectory(config.dest_dir);
-    createDestinationDirectory(path.dirname(config.css))
-    createDestinationDirectory(path.dirname(config.less))
+    createDestinationDirectory(path.dirname(config.css));
+    createDestinationDirectory(path.dirname(config.less));
     generateTtf(config);
     generateEot(config);
     generateSvg(config);
@@ -68,7 +69,7 @@ generateFontFace = function(options) {
     generateWoff2(config);
     generateStylesheet(config);
 
-    return config.fonts
+    return config.fonts;
 },
 
 
@@ -233,7 +234,6 @@ generateStylesheet = function(config) {
 },
 
 generateCSSStyleSheet = function(stylesheet, name, filename, weight, style, woff2, woff, ttf) {
-    console.log('generateCSSStylesheet');
     var result = [
       '@font-face {',
       '    font-family: "' + name + '";',
@@ -252,7 +252,6 @@ generateCSSStyleSheet = function(stylesheet, name, filename, weight, style, woff
 },
 
 generateLESSStyleSheet = function(stylesheet, name, filename, weight, style, woff2, woff, ttf) {
-    console.log('generateLESSStylesheet');
     var result = [
       '@font-face {',
       '    font-family: "' + name + '";',
@@ -275,16 +274,16 @@ generateLESSStyleSheet = function(stylesheet, name, filename, weight, style, wof
 
 getFontName = function(source) {
     var result = fontforge('Open($1);Print($fontname);', source);
-    if (result.status == 0) {
-        return result.stdout.trim().replace(' ', '_');
+    if (result) {
+        return result.trim().replace(' ', '_');
     }
     return false;
 },
 
 getFontWeight = function(source) {
     var result = fontforge('Open($1);Print($weight);', source);
-    if (result.status == 0) {
-        var weight = result.stdout.trim().replace(' ', '').toLowerCase();
+    if (result) {
+        var weight = result.trim().replace(' ', '').toLowerCase();
         if (weight_table[weight])
             return weight_table[weight];
         return weight;
@@ -294,8 +293,8 @@ getFontWeight = function(source) {
 
 getFontStyle = function(source) {
     var result = fontforge('Open($1);Print($italicangle);', source);
-    if (result.status == 0) {
-        return (result.stdout.trim() == 0) ? 'normal' : 'italic';
+    if (result) {
+        return (parseInt(result.trim()) === 0) ? 'normal' : 'italic';
     }
     return false;
 },
@@ -352,15 +351,15 @@ fontforge = function() {
         command += ' \'' + arg + '\'';
     });
 
-    result = child.execSync(command + ' 2> /dev/null');
-    success = result;
-
-    if (! success) {
+    try {
+        result = child.execSync(command + ' 2> /dev/null').toString();
+    } catch (e) {
         throw new FontFaceException(
-            'FontForge command failed\n' +
+            'FontForge command failed: ' + e.toString() + '\n' +
             'From command: ' + command + '\n' +
             result.trim());
     }
+
     return result;
 },
 
