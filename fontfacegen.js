@@ -59,8 +59,8 @@ generateFontFace = function(options) {
     var config = generateConfig(options);
 
     createDestinationDirectory(config.dest_dir);
-    createDestinationDirectory(path.dirname(config.css))
-    createDestinationDirectory(path.dirname(config.less))
+    createDestinationDirectory(path.dirname(config.css));
+    createDestinationDirectory(path.dirname(config.less));
     generateTtf(config);
     generateEot(config);
     generateSvg(config);
@@ -68,7 +68,7 @@ generateFontFace = function(options) {
     generateWoff2(config);
     generateStylesheet(config);
 
-    return config.fonts
+    return config.fonts;
 },
 
 
@@ -233,7 +233,6 @@ generateStylesheet = function(config) {
 },
 
 generateCSSStyleSheet = function(stylesheet, name, filename, weight, style, woff2, woff, ttf) {
-    console.log('generateCSSStylesheet');
     var result = [
       '@font-face {',
       '    font-family: "' + name + '";',
@@ -252,7 +251,6 @@ generateCSSStyleSheet = function(stylesheet, name, filename, weight, style, woff
 },
 
 generateLESSStyleSheet = function(stylesheet, name, filename, weight, style, woff2, woff, ttf) {
-    console.log('generateLESSStylesheet');
     var result = [
       '@font-face {',
       '    font-family: "' + name + '";',
