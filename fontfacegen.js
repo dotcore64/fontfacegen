@@ -59,6 +59,7 @@ generateFontFace = function(options) {
     var config = generateConfig(options);
 
     createDestinationDirectory(config.dest_dir);
+    createDestinationDirectory(path.dirname(config.css))
     generateTtf(config);
     generateEot(config);
     generateSvg(config);
