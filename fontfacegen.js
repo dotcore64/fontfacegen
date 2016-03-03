@@ -215,7 +215,7 @@ generateStylesheet = function(config) {
     ttf        = '"' + filename + '.ttf"';
 
     if (has(config.embed, 'woff2')) {
-        woff = embedFont(config.woff2);
+        woff2 = embedFont(config.woff2);
     }
     if (has(config.embed, 'woff')) {
         woff = embedFont(config.woff);
