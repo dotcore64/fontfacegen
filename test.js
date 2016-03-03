@@ -73,6 +73,7 @@ function processFont(source, dest) {
         css_fontpath: '../fonts/',
         css: 'tmp/dest/css/fonts.css',
         less: 'tmp/dest/less/fonts.less',
+        scss: 'tmp/dest/scss/fonts.scss',
         embed: ['ttf'],
         collate: true
     });
