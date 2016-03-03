@@ -71,6 +71,7 @@ function processFont(source, dest) {
         source: source,
         dest: dest,
         css_fontpath: '../fonts/',
+        css: 'tmp/dest/css/fonts.css',
         embed: ['ttf'],
         collate: true
     });
