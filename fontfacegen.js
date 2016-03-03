@@ -39,6 +39,7 @@ requiredCommands = (function () {
 weight_table = {
     thin:           '100',
     extralight:     '200',
+    book:           '300',
     light:          '300',
     medium:         'normal',
     normal:         'normal',
