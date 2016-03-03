@@ -13,10 +13,11 @@
 
 var
 
-fs     = require('fs'),
-os     = require('os'),
-path   = require('path'),
-child  = require('child_process'),
+fs         = require('fs'),
+os         = require('os'),
+path       = require('path'),
+child      = require('child_process'),
+ttf2woff2  = require('ttf2woff2'),
 
 
 
@@ -62,6 +63,7 @@ generateFontFace = function(options) {
     generateEot(config);
     generateSvg(config);
     generateWoff(config);
+    generateWoff2(config);
     generateStylesheet(config);
 
     return config.fonts
@@ -132,6 +134,7 @@ generateConfig = function(options) {
     _.eot          = [_.target, '.eot'].join('');
     _.svg          = [_.target, '.svg'].join('');
     _.woff         = [_.target, '.woff'].join('');
+    _.woff2        = [_.target, '.woff2'].join('');
     _.css          = [_.target, '.css'].join('');
     _.css_fontpath = '';
     _.name         = getFontName(_.source);
@@ -190,8 +193,15 @@ generateWoff = function(config) {
     return fontforge(script, source, target);
 },
 
+generateWoff2 = function(config) {
+
+    var source = fs.readFileSync(config.ttf);
+
+    fs.writeFileSync(config.woff2, ttf2woff2(source));
+},
+
 generateStylesheet = function(config) {
-    var name, filename, weight, style, stylesheet, result, woff, ttf;
+    var name, filename, weight, style, stylesheet, result, woff, woff2, ttf;
 
     name       = config.name;
     filename   = (config.collate)
@@ -200,6 +210,7 @@ generateStylesheet = function(config) {
     weight     = config.weight;
     style      = config.style;
     stylesheet = config.css;
+    woff2      = '"' + filename + '.woff2"';
     woff       = '"' + filename + '.woff"';
     ttf        = '"' + filename + '.ttf"';
 
@@ -215,6 +226,7 @@ generateStylesheet = function(config) {
         '    font-family: "' + name + '";',
         '    src: url("' + filename + '.eot");',
         '    src: url("' + filename + '.eot?#iefix") format("embedded-opentype"),',
+        '         url('  + woff2    + ') format("woff2"),',
         '         url('  + woff     + ') format("woff"),',
         '         url('  + ttf      + ') format("truetype"),',
         '         url("' + filename + '.svg#' + name + '") format("svg");',
