@@ -60,6 +60,7 @@ generateFontFace = function(options) {
 
     createDestinationDirectory(config.dest_dir);
     createDestinationDirectory(path.dirname(config.css))
+    createDestinationDirectory(path.dirname(config.less))
     generateTtf(config);
     generateEot(config);
     generateSvg(config);
@@ -202,7 +203,7 @@ generateWoff2 = function(config) {
 },
 
 generateStylesheet = function(config) {
-    var name, filename, weight, style, stylesheet, result, woff, woff2, ttf;
+    var name, filename, weight, style, woff, woff2, ttf;
 
     name       = config.name;
     filename   = (config.collate)
@@ -210,7 +211,6 @@ generateStylesheet = function(config) {
         : path.join(config.css_fontpath, config.basename);
     weight     = config.weight;
     style      = config.style;
-    stylesheet = config.css;
     woff2      = '"' + filename + '.woff2"';
     woff       = '"' + filename + '.woff"';
     ttf        = '"' + filename + '.ttf"';
@@ -224,19 +224,47 @@ generateStylesheet = function(config) {
     if (has(config.embed, 'ttf')) {
         ttf = embedFont(config.ttf);
     }
+    if (config.css) {
+      generateCSSStyleSheet(config.css, name, filename, weight, style, woff2, woff, ttf);
+    }
+    if (config.less) {
+      generateLESSStyleSheet(config.less, name, filename, weight, style, woff2, woff, ttf);
+    }
+},
 
-    result = [
-        '@font-face {',
-        '    font-family: "' + name + '";',
-        '    src: url("' + filename + '.eot");',
-        '    src: url("' + filename + '.eot?#iefix") format("embedded-opentype"),',
-        '         url('  + woff2    + ') format("woff2"),',
-        '         url('  + woff     + ') format("woff"),',
-        '         url('  + ttf      + ') format("truetype"),',
-        '         url("' + filename + '.svg#' + name + '") format("svg");',
-        '    font-weight: ' + weight + ';',
-        '    font-style: ' + style + ';',
-        '}'].join("\n");
+generateCSSStyleSheet = function(stylesheet, name, filename, weight, style, woff2, woff, ttf) {
+    console.log('generateCSSStylesheet');
+    var result = [
+      '@font-face {',
+      '    font-family: "' + name + '";',
+      '    src: url("' + filename + '.eot");',
+      '    src: url("' + filename + '.eot?#iefix") format("embedded-opentype"),',
+      '         url('  + woff2    + ') format("woff2"),',
+      '         url('  + woff     + ') format("woff"),',
+      '         url('  + ttf      + ') format("truetype"),',
+      '         url("' + filename + '.svg#' + name + '") format("svg");',
+      '    font-weight: ' + weight + ';',
+      '    font-style: ' + style + ';',
+      '}'].join("\n");
+      
+    fs.writeFileSync(stylesheet, result);
+    return result;
+},
+
+generateLESSStyleSheet = function(stylesheet, name, filename, weight, style, woff2, woff, ttf) {
+    console.log('generateLESSStylesheet');
+    var result = [
+      '@font-face {',
+      '    font-family: "' + name + '";',
+      '    src: url("' + filename + '.eot");',
+      '    src: url("' + filename + '.eot?#iefix") format("embedded-opentype"),',
+      '         url('  + woff2    + ') format("woff2"),',
+      '         url('  + woff     + ') format("woff"),',
+      '         url('  + ttf      + ') format("truetype"),',
+      '         url("' + filename + '.svg#' + name + '") format("svg");',
+      '    font-weight: ' + weight + ';',
+      '    font-style: ' + style + ';',
+      '}'].join("\n");
 
     fs.writeFileSync(stylesheet, result);
     return result;
