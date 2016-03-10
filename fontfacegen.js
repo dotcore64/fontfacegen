@@ -18,6 +18,7 @@ os         = require('os'),
 path       = require('path'),
 child      = require('child_process'),
 ttf2woff2  = require('ttf2woff2'),
+has        = require('./lib/helpers.js').has,
 fontforge  = require('./lib/fontforge.js'),
 
 isLinux = os.type().toLowerCase() == "linux",
@@ -368,13 +369,6 @@ embedFont = function(fontFile) {
 
 quote = function(str) {
     return '"' + str + '"';
-},
-
-has = function(haystack, needle) {
-    return haystack.indexOf(needle) !== -1;
 };
-
-
-
 
 module.exports = generateFontFace;
