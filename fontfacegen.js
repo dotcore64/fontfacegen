@@ -19,6 +19,7 @@ path       = require('path'),
 child      = require('child_process'),
 ttf2woff2  = require('ttf2woff2'),
 has        = require('./lib/helpers.js').has,
+quote      = require('./lib/helpers.js').quote,
 fontforge  = require('./lib/fontforge.js'),
 
 isLinux = os.type().toLowerCase() == "linux",
@@ -365,10 +366,6 @@ embedFont = function(fontFile) {
     fs.unlinkSync(fontFile);
 
     return fontUrl;
-},
-
-quote = function(str) {
-    return '"' + str + '"';
 };
 
 module.exports = generateFontFace;
