@@ -19,6 +19,7 @@ path               = require('path'),
 child              = require('child_process'),
 FontFaceException  = require('./lib/exception.js'),
 ttf2woff2          = require('ttf2woff2'),
+ttf2eot            = require('./lib/ttf2eot.js'),
 has                = require('./lib/helpers.js').has,
 quote              = require('./lib/helpers.js').quote,
 merge              = require('./lib/helpers.js').merge,
@@ -29,7 +30,7 @@ isLinux = os.type().toLowerCase() == "linux",
 requiredCommands = (function () {
     requiredCommands = {
         ttfautohint: 'ttfautohint',
-        ttf2eot: 'ttf2eot',
+        ttf2eot: 'ttf2eot'
     };
     if (isLinux) {
         requiredCommands.ttf2svg = 'ttf2svg';
@@ -298,25 +299,6 @@ commandPath = function(command) {
         throw(e);
     }
     return false;
-},
-
-ttf2eot = function(source, dest) {
-    var command, result, success;
-
-    command = [globals.ttf2eot, quote(source), '>', quote(dest)].join(' ');
-
-    result = child.execSync(command);
-    success = result;
-
-    if (! success) {
-        throw new FontFaceException(
-            'ttf2eot command failed\n' +
-            'From command: ' + command + '\n' +
-            result.trim() + '\n' +
-            'Your EOT file will probably not be in a working state');
-    }
-
-    return result;
 },
 
 ttf2svg = function(source, target, name) {
