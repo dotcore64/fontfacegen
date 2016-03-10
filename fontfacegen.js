@@ -20,6 +20,7 @@ child              = require('child_process'),
 FontFaceException  = require('./lib/exception.js'),
 ttf2woff2          = require('ttf2woff2'),
 ttf2eot            = require('./lib/ttf2eot.js'),
+ttf2svg            = require('./lib/ttf2svg.js'),
 has                = require('./lib/helpers.js').has,
 quote              = require('./lib/helpers.js').quote,
 merge              = require('./lib/helpers.js').merge,
@@ -28,16 +29,9 @@ fontforge          = require('./lib/fontforge.js'),
 isLinux = os.type().toLowerCase() == "linux",
 
 requiredCommands = (function () {
-    requiredCommands = {
-        ttfautohint: 'ttfautohint',
-        ttf2eot: 'ttf2eot'
+    return {
+        ttfautohint: 'ttfautohint'
     };
-    if (isLinux) {
-        requiredCommands.ttf2svg = 'ttf2svg';
-    } else{
-        requiredCommands['batik-ttf2svg'] = 'batik';
-    }
-    return requiredCommands;
 })(),
 
 
@@ -299,28 +293,6 @@ commandPath = function(command) {
         throw(e);
     }
     return false;
-},
-
-ttf2svg = function(source, target, name) {
-    var command, result, success;
-
-    if (isLinux) {
-        command = [globals.ttf2eot, quote(source), '>', quote(target)].join(' ');
-    } else{
-        command = [globals['batik-ttf2svg'], quote(source), '-id', quote(name), '-o', quote(target)].join(' ');
-    }
-    
-    result = child.execSync(command);
-    success = result;
-
-    if (! success) {
-        throw new FontFaceException(
-            'ttf2svg command failed\n' +
-            'From command: ' + command + '\n' +
-            result.trim() + '\n' +
-            'Your SVG file will probably not be in a working state');
-    }
-    return result;
 },
 
 // Convert font file to data:uri and *remove* source file.
