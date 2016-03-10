@@ -26,6 +26,8 @@ quote              = require('./lib/helpers.js').quote,
 merge              = require('./lib/helpers.js').merge,
 fontforge          = require('./lib/fontforge.js'),
 
+generateCSSStyleSheet = require('./lib/css.js'),
+
 isLinux = os.type().toLowerCase() == "linux",
 
 requiredCommands = (function () {
@@ -218,24 +220,6 @@ generateStylesheet = function(config) {
     if (config.scss) {
       generateSCSSStyleSheet(config.scss, name, filename, weight, style, woff2, woff, ttf);
     }
-},
-
-generateCSSStyleSheet = function(stylesheet, name, filename, weight, style, woff2, woff, ttf) {
-    var result = [
-      '@font-face {',
-      '    font-family: "' + name + '";',
-      '    src: url("' + filename + '.eot");',
-      '    src: url("' + filename + '.eot?#iefix") format("embedded-opentype"),',
-      '         url('  + woff2    + ') format("woff2"),',
-      '         url('  + woff     + ') format("woff"),',
-      '         url('  + ttf      + ') format("truetype"),',
-      '         url("' + filename + '.svg#' + name + '") format("svg");',
-      '    font-weight: ' + weight + ';',
-      '    font-style: ' + style + ';',
-      '}'].join("\n");
-      
-    fs.writeFileSync(stylesheet, result);
-    return result;
 },
 
 generateLESSStyleSheet = function(stylesheet, name, filename, weight, style, woff2, woff, ttf) {
