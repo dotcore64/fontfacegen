@@ -12,7 +12,7 @@ var child = require('child_process');
 var fs = require('fs');
 var https = require('https');
 var path = require('path');
-var fontfacegen = require('./fontfacegen');
+var fontfacegen = require('./index.js');
 
 var source = 'tmp/';
 var dest = 'tmp/dest/';
@@ -74,7 +74,7 @@ function processFont(source, dest) {
         css: 'tmp/dest/css/fonts.css',
         less: 'tmp/dest/less/fonts.less',
         scss: 'tmp/dest/scss/fonts.scss',
-        embed: ['ttf'],
+        embed: ['ttf', 'woff', 'woff2'],
         collate: true
     });
     return Promise.resolve();
