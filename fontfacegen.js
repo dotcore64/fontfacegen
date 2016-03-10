@@ -27,7 +27,7 @@ merge              = require('./lib/helpers.js').merge,
 fontforge          = require('./lib/fontforge.js'),
 
 generateCSSStyleSheet   = require('./lib/css.js'),
-generateLESSStyleSheet  = require('./lib/css.js'),
+generateLESSStyleSheet  = require('./lib/less.js'),
 
 isLinux = os.type().toLowerCase() == "linux",
 
