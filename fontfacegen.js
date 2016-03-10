@@ -18,14 +18,12 @@ os         = require('os'),
 path       = require('path'),
 child      = require('child_process'),
 ttf2woff2  = require('ttf2woff2'),
-
-
+fontforge  = require('./lib/fontforge.js'),
 
 isLinux = os.type().toLowerCase() == "linux",
 
 requiredCommands = (function () {
     requiredCommands = {
-        fontforge: 'fontforge',
         ttfautohint: 'ttfautohint',
         ttf2eot: 'ttf2eot',
     };
@@ -36,20 +34,6 @@ requiredCommands = (function () {
     }
     return requiredCommands;
 })(),
-
-weight_table = {
-    thin:           '100',
-    extralight:     '200',
-    book:           '300',
-    light:          '300',
-    medium:         'normal',
-    normal:         'normal',
-    demibold:       '600',
-    semibold:       '700',
-    bold:           '700',
-    extrabold:      '800',
-    black:          '900',
-},
 
 
 // ----------------------------------------------------------------------------
@@ -141,9 +125,9 @@ generateConfig = function(options) {
     _.woff2        = [_.target, '.woff2'].join('');
     _.css          = [_.target, '.css'].join('');
     _.css_fontpath = '';
-    _.name         = getFontName(_.source);
-    _.weight       = getFontWeight(_.source);
-    _.style        = getFontStyle(_.source);
+    _.name         = fontforge.getName(_.source);
+    _.weight       = fontforge.getWeight(_.source);
+    _.style        = fontforge.getStyle(_.source);
     _.embed        = [];
 
     if (fs.existsSync(_.config_file)) {
@@ -168,7 +152,7 @@ generateTtf = function(config) {
         target = config.ttf,
         name   = config.name;
 
-    return fontforge(script, source, target, name);
+    return fontforge(source, script, target, name);
 },
 
 generateEot = function(config) {
@@ -194,7 +178,7 @@ generateWoff = function(config) {
         source = config.source,
         target = config.woff;
 
-    return fontforge(script, source, target);
+    return fontforge(source, script, target);
 },
 
 generateWoff2 = function(config) {
@@ -294,36 +278,6 @@ generateSCSSStyleSheet = function(stylesheet, name, filename, weight, style, wof
 
 // ----------------------------------------------------------------------------
 
-getFontName = function(source) {
-    var result = fontforge('Open($1);Print($fontname);', source);
-    if (result) {
-        return result.trim().replace(' ', '_');
-    }
-    return false;
-},
-
-getFontWeight = function(source) {
-    var result = fontforge('Open($1);Print($weight);', source);
-    if (result) {
-        var weight = result.trim().replace(' ', '').toLowerCase();
-        if (weight_table[weight])
-            return weight_table[weight];
-        return weight;
-    }
-    return false;
-},
-
-getFontStyle = function(source) {
-    var result = fontforge('Open($1);Print($italicangle);', source);
-    if (result) {
-        return (parseInt(result.trim()) === 0) ? 'normal' : 'italic';
-    }
-    return false;
-},
-
-
-// ----------------------------------------------------------------------------
-
 FontFaceException = function(message) {
    this.message = message;
    this.name = "FontFaceException";
@@ -354,35 +308,6 @@ commandPath = function(command) {
         throw(e);
     }
     return false;
-},
-
-fontforge = function() {
-    var args, script, command, result, success;
-
-    args = Array.prototype.slice.call(arguments);
-    if (args.length < 1) {
-        return false;
-    }
-
-    script = args.shift();
-
-    command = globals.fontforge +
-        ' -lang=ff -c \'' + script + '\'';
-
-    args.forEach(function(arg){
-        command += ' \'' + arg + '\'';
-    });
-
-    try {
-        result = child.execSync(command + ' 2> /dev/null').toString();
-    } catch (e) {
-        throw new FontFaceException(
-            'FontForge command failed: ' + e.toString() + '\n' +
-            'From command: ' + command + '\n' +
-            result.trim());
-    }
-
-    return result;
 },
 
 ttf2eot = function(source, dest) {

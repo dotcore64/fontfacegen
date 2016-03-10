@@ -39,5 +39,8 @@
   ],
   "devDependencies": {
     "ttf2woff2": "^2.0.3"
+  },
+  "dependencies": {
+    "which": "^1.2.4"
   }
 }
