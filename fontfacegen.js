@@ -20,6 +20,7 @@ child      = require('child_process'),
 ttf2woff2  = require('ttf2woff2'),
 has        = require('./lib/helpers.js').has,
 quote      = require('./lib/helpers.js').quote,
+merge      = require('./lib/helpers.js').merge,
 fontforge  = require('./lib/fontforge.js'),
 
 isLinux = os.type().toLowerCase() == "linux",
@@ -283,15 +284,6 @@ generateSCSSStyleSheet = function(stylesheet, name, filename, weight, style, wof
 FontFaceException = function(message) {
    this.message = message;
    this.name = "FontFaceException";
-},
-
-merge = function(destination, source) {
-    for (var property in source) {
-        if (source.hasOwnProperty(property)) {
-            destination[property] = source[property];
-        }
-    }
-    return destination;
 },
 
 commandPath = function(command) {
