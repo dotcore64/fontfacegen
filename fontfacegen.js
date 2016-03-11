@@ -25,6 +25,7 @@ has                = require('./lib/helpers.js').has,
 quote              = require('./lib/helpers.js').quote,
 merge              = require('./lib/helpers.js').merge,
 fontforge          = require('./lib/fontforge.js'),
+encodeFont         = require('./lib/encode.js'),
 
 generateCSSStyleSheet   = require('./lib/css.js'),
 generateLESSStyleSheet  = require('./lib/less.js'),
@@ -205,13 +206,13 @@ generateStylesheet = function(config) {
     ttf        = '"' + filename + '.ttf"';
 
     if (has(config.embed, 'woff2')) {
-        woff2 = embedFont(config.woff2);
+        woff2 = encodeFont(config.woff2);
     }
     if (has(config.embed, 'woff')) {
-        woff = embedFont(config.woff);
+        woff = encodeFont(config.woff);
     }
     if (has(config.embed, 'ttf')) {
-        ttf = embedFont(config.ttf);
+        ttf = encodeFont(config.ttf);
     }
     if (config.css) {
       generateCSSStyleSheet(config.css, name, filename, weight, style, woff2, woff, ttf);
@@ -243,21 +244,6 @@ commandPath = function(command) {
         throw(e);
     }
     return false;
-},
-
-// Convert font file to data:uri and *remove* source file.
-embedFont = function(fontFile) {
-    var dataUri, type, fontUrl;
-
-    // Convert to data:uri
-    dataUri = fs.readFileSync(fontFile, 'base64');
-    type = path.extname(fontFile).substring(1);
-    fontUrl = 'data:application/x-font-' + type + ';charset=utf-8;base64,' + dataUri;
-
-    // Remove source file
-    fs.unlinkSync(fontFile);
-
-    return fontUrl;
 };
 
 module.exports = generateFontFace;
