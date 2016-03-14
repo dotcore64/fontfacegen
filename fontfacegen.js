@@ -32,18 +32,10 @@ generateLESSStyleSheet  = require('./lib/less.js'),
 generateSCSSStyleSheet  = require('./lib/scss.js'),
 
 
-requiredCommands = (function () {
-    return {
-        ttfautohint: 'ttfautohint'
-    };
-})(),
-
 
 // ----------------------------------------------------------------------------
 
 generateFontFace = function(options) {
-
-    generateGlobals(options);
     var config = generateConfig(options);
 
     createDestinationDirectory(config.dest_dir);
@@ -62,52 +54,6 @@ generateFontFace = function(options) {
 
 
 // ----------------------------------------------------------------------------
-
-globals = null,
-
-generateGlobals = function(options) {
-    var missing = [];
-    globals = {};
-
-    Object.keys(requiredCommands).forEach(function(cmd){
-        if (options[cmd]) {
-            globals[cmd] = options[cmd];
-        } else {
-            globals[cmd] = commandPath(cmd);
-        }
-        if (!globals[cmd]) {
-            missing.push(requiredCommands[cmd]);
-        }
-    });
-
-    if (missing.length) {
-        if (isLinux) {
-            var errNPM = [], errAPT = [];
-            missing.forEach(function(cmd){
-                if (cmd.indexOf("ttf2") != -1) {
-                    errNPM.push(cmd);
-                } else{
-                    errAPT.push(cmd);
-                }
-            });
-
-            throw new FontFaceException(
-                'We are missing some required font packages.\n' +
-                'That can be installed with:\n' +
-                (errAPT.length ? 'sudo apt-get install  ' + errAPT.join(' ') + '\n' : '') +
-                (errAPT.length && errNPM.length ? 'and' : '') +
-                (errNPM.length ? 'sudo npm install -g  ' + errNPM.join(' ') : ''));
-        } else{
-            throw new FontFaceException(
-                'We are missing some required font packages.\n' +
-                'That can be installed with:\n' +
-                'brew install ' + missing.join(' '));
-        }
-    }
-
-    // Only needs to be done once
-    generateGlobals = function(){}
-},
 
 generateConfig = function(options) {
     var _ = {
@@ -222,27 +168,6 @@ generateStylesheet = function(config) {
     if (config.scss) {
       generateSCSSStyleSheet(config.scss, name, filename, weight, style, woff2, woff, ttf);
     }
-},
-
-
-// ----------------------------------------------------------------------------
-
-commandPath = function(command) {
-    try {
-        var result = child.execSync('which ' + command, {
-            encoding: 'utf-8'
-        });
-        if (result) {
-            return result.trim();
-        }
-    }
-    catch (e) {
-        if (e.status == 1) {
-            return false;
-        }
-        throw(e);
-    }
-    return false;
 };
 
 module.exports = generateFontFace;
