@@ -14,7 +14,6 @@
 var
 
 fs                 = require('fs'),
-os                 = require('os'),
 path               = require('path'),
 child              = require('child_process'),
 FontFaceException  = require('./lib/exception.js'),
@@ -24,6 +23,7 @@ ttf2svg            = require('./lib/ttf2svg.js'),
 has                = require('./lib/helpers.js').has,
 quote              = require('./lib/helpers.js').quote,
 merge              = require('./lib/helpers.js').merge,
+isLinux            = require('./lib/helpers.js').isLinux(),
 fontforge          = require('./lib/fontforge.js'),
 encodeFont         = require('./lib/encode.js'),
 
@@ -31,7 +31,6 @@ generateCSSStyleSheet   = require('./lib/css.js'),
 generateLESSStyleSheet  = require('./lib/less.js'),
 generateSCSSStyleSheet  = require('./lib/scss.js'),
 
-isLinux = os.type().toLowerCase() == "linux",
 
 requiredCommands = (function () {
     return {
