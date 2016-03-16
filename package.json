@@ -41,6 +41,7 @@
     "ttf2woff2": "^2.0.3"
   },
   "dependencies": {
+    "mkdirp": "^0.5.1",
     "which": "^1.2.4"
   }
 }

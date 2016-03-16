@@ -15,7 +15,7 @@ var
 
 fs                 = require('fs'),
 path               = require('path'),
-child              = require('child_process'),
+mkdirp             = require('mkdirp').sync,
 FontFaceException  = require('./lib/exception.js'),
 ttf2woff2          = require('ttf2woff2'),
 ttf2eot            = require('./lib/ttf2eot.js'),
@@ -38,10 +38,10 @@ generateSCSSStyleSheet  = require('./lib/scss.js'),
 generateFontFace = function(options) {
     var config = generateConfig(options);
 
-    createDestinationDirectory(config.dest_dir);
-    createDestinationDirectory(path.dirname(config.css));
-    createDestinationDirectory(path.dirname(config.less));
-    createDestinationDirectory(path.dirname(config.scss));
+    mkdirp(config.dest_dir);
+    mkdirp(path.dirname(config.css));
+    mkdirp(path.dirname(config.less));
+    mkdirp(path.dirname(config.scss));
     generateTtf(config);
     generateEot(config);
     generateSvg(config);
@@ -86,12 +86,6 @@ generateConfig = function(options) {
     merge(_, options);
 
     return _;
-},
-
-createDestinationDirectory = function(dest) {
-    if (!fs.existsSync(dest)) {
-        child.execSync('mkdir -p ' + quote(dest));
-    }
 },
 
 generateTtf = function(config) {
