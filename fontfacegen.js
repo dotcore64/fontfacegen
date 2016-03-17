@@ -18,10 +18,10 @@ path               = require('path'),
 mkdirp             = require('mkdirp').sync,
 configure          = require('./lib/configure.js'),
 ttf                = require('./lib/ttf.js'),
+ttf2woff           = require('./lib/ttf2woff.js'),
 ttf2woff2          = require('ttf2woff2'),
 ttf2eot            = require('./lib/ttf2eot.js'),
 ttf2svg            = require('./lib/ttf2svg.js'),
-fontforge          = require('./lib/fontforge.js'),
 stylesheets        = require('./lib/stylesheets.js'),
 
 // ----------------------------------------------------------------------------
@@ -36,22 +36,13 @@ generateFontFace = function(options) {
     ttf(config.source, config.ttf, config.name);
     ttf2eot(config.ttf, config.eot);
     ttf2svg(config.ttf, config.svg, config.name);
-    generateWoff(config);
+    ttf2woff(config.ttf, config.woff);
     generateWoff2(config);
     stylesheets(config);
 },
 
 
 // ----------------------------------------------------------------------------
-
-generateWoff = function(config) {
-
-    var script = 'Open($1);Generate($2, "", 8);',
-        source = config.source,
-        target = config.woff;
-
-    return fontforge(source, script, target);
-},
 
 generateWoff2 = function(config) {
 
