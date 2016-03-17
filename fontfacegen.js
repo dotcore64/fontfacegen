@@ -13,20 +13,17 @@
 
 var
 
-fs                 = require('fs'),
 path               = require('path'),
 mkdirp             = require('mkdirp').sync,
 configure          = require('./lib/configure.js'),
 ttf                = require('./lib/ttf.js'),
 ttf2woff           = require('./lib/ttf2woff.js'),
-ttf2woff2          = require('ttf2woff2'),
+ttf2woff2          = require('./lib/ttf2woff2.js'),
 ttf2eot            = require('./lib/ttf2eot.js'),
 ttf2svg            = require('./lib/ttf2svg.js'),
-stylesheets        = require('./lib/stylesheets.js'),
+stylesheets        = require('./lib/stylesheets.js');
 
-// ----------------------------------------------------------------------------
-
-generateFontFace = function(options) {
+module.exports = function(options) {
     var config = configure(options);
 
     mkdirp(config.dest_dir);
@@ -37,18 +34,6 @@ generateFontFace = function(options) {
     ttf2eot(config.ttf, config.eot);
     ttf2svg(config.ttf, config.svg, config.name);
     ttf2woff(config.ttf, config.woff);
-    generateWoff2(config);
+    ttf2woff2(config.ttf, config.woff2);
     stylesheets(config);
-},
-
-
-// ----------------------------------------------------------------------------
-
-generateWoff2 = function(config) {
-
-    var source = fs.readFileSync(config.ttf);
-
-    fs.writeFileSync(config.woff2, ttf2woff2(source));
 };
-
-module.exports = generateFontFace;
