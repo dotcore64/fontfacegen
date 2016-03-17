@@ -35,7 +35,7 @@ generateFontFace = function(options) {
     mkdirp(path.dirname(config.scss));
     ttf(config.source, config.ttf, config.name);
     ttf2eot(config.ttf, config.eot);
-    generateSvg(config);
+    ttf2svg(config.ttf, config.svg, config.name);
     generateWoff(config);
     generateWoff2(config);
     stylesheets(config);
@@ -43,15 +43,6 @@ generateFontFace = function(options) {
 
 
 // ----------------------------------------------------------------------------
-
-generateSvg = function(config) {
-
-    var source = config.ttf,
-        target = config.svg,
-        name   = config.name;
-
-    return ttf2svg(source, target, name);
-},
 
 generateWoff = function(config) {
 
