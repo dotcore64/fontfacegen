@@ -16,7 +16,6 @@ var
 fs                 = require('fs'),
 path               = require('path'),
 mkdirp             = require('mkdirp').sync,
-FontFaceException  = require('./lib/exception.js'),
 ttf2woff2          = require('ttf2woff2'),
 ttf2eot            = require('./lib/ttf2eot.js'),
 ttf2svg            = require('./lib/ttf2svg.js'),
@@ -25,13 +24,7 @@ quote              = require('./lib/helpers.js').quote,
 merge              = require('./lib/helpers.js').merge,
 isLinux            = require('./lib/helpers.js').isLinux(),
 fontforge          = require('./lib/fontforge.js'),
-encodeFont         = require('./lib/encode.js'),
-
-generateCSSStyleSheet   = require('./lib/css.js'),
-generateLESSStyleSheet  = require('./lib/less.js'),
-generateSCSSStyleSheet  = require('./lib/scss.js'),
-
-
+stylesheets        = require('./lib/stylesheets.js'),
 
 // ----------------------------------------------------------------------------
 
@@ -47,9 +40,7 @@ generateFontFace = function(options) {
     generateSvg(config);
     generateWoff(config);
     generateWoff2(config);
-    generateStylesheet(config);
-
-    return config.fonts;
+    stylesheets(config);
 },
 
 
@@ -129,39 +120,6 @@ generateWoff2 = function(config) {
     var source = fs.readFileSync(config.ttf);
 
     fs.writeFileSync(config.woff2, ttf2woff2(source));
-},
-
-generateStylesheet = function(config) {
-    var name, filename, weight, style, woff, woff2, ttf;
-
-    name       = config.name;
-    filename   = (config.collate)
-        ? path.join(config.css_fontpath, config.basename, config.basename)
-        : path.join(config.css_fontpath, config.basename);
-    weight     = config.weight;
-    style      = config.style;
-    woff2      = '"' + filename + '.woff2"';
-    woff       = '"' + filename + '.woff"';
-    ttf        = '"' + filename + '.ttf"';
-
-    if (has(config.embed, 'woff2')) {
-        woff2 = encodeFont(config.woff2);
-    }
-    if (has(config.embed, 'woff')) {
-        woff = encodeFont(config.woff);
-    }
-    if (has(config.embed, 'ttf')) {
-        ttf = encodeFont(config.ttf);
-    }
-    if (config.css) {
-      generateCSSStyleSheet(config.css, name, filename, weight, style, woff2, woff, ttf);
-    }
-    if (config.less) {
-      generateLESSStyleSheet(config.less, name, filename, weight, style, woff2, woff, ttf);
-    }
-    if (config.scss) {
-      generateSCSSStyleSheet(config.scss, name, filename, weight, style, woff2, woff, ttf);
-    }
 };
 
 module.exports = generateFontFace;
