@@ -1,7 +1,7 @@
 {
   "name": "fontfacegen",
   "description": "Browser font-face generator for creating browser usable fonts from ttf's or otf's",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "homepage": "https://github.com/agentk/fontfacegen",
   "author": {
     "name": "Karl Bowden",
@@ -22,7 +22,7 @@
   "scripts": {
     "test": "node test.js"
   },
-  "main": "fontfacegen.js",
+  "main": "index.js",
   "keywords": [
     "font-face",
     "fontface",
@@ -37,7 +37,9 @@
     "eot",
     "css"
   ],
-  "devDependencies": {
-    "ttf2woff2": "^2.0.3"
+  "dependencies": {
+    "ttf2woff2": "^2.0.3",
+    "mkdirp": "^0.5.1",
+    "which": "^1.2.4"
   }
 }
