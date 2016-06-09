@@ -74,7 +74,7 @@ function processFont(source, dest) {
         css: 'tmp/dest/css/fonts.css',
         less: 'tmp/dest/less/fonts.less',
         scss: 'tmp/dest/scss/fonts.scss',
-        embed: ['ttf', 'woff', 'woff2'],
+        embed: ['ttf', 'woff', 'woff2', 'svg'],
         collate: true
     });
     return Promise.resolve();
