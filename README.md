@@ -54,6 +54,12 @@ Path to the font files relative to the css generated.
 
 Default = ''
 
+### subset
+
+A string or array with the characters desired to be included inside the generated fonts
+
+Default = null
+
 ### collate:
 
 Append the source filename to the destination directory in order to collate generated fonts into separate directories.
@@ -119,6 +125,7 @@ Note: If present, the json config file must be valid json.
                 dest: dest,
                 css_fontpath: '../fonts/',
                 embed: ['ttf'],
+                subset: 'abcdef',
                 collate: true
             });
         }
