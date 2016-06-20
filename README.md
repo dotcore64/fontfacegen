@@ -46,27 +46,27 @@ Path to the destination folder for the converted fonts to be placed in.
 
 Path to the destination file to write the generated stylesheet to.
 
-Default = `null` (Guess the css filename from the font filename)
+**Default**: `null` (Guess the css filename from the font filename)
 
 ### css_fontpath:
 
 Path to the font files relative to the css generated.
 
-Default = ''
+**Default**: `''`
 
-### subset
+### subset:
 
 A string or array with the characters desired to be included inside the generated fonts
 
-Default = null
+**Default**: `null`
 
 ### collate:
 
 Append the source filename to the destination directory in order to collate generated fonts into separate directories.
 
-Default = `false`
+**Default**: `false`
 
-IE:
+**IE**:
 
     options = {
         source: 'src/fonts/ariel.ttf',
@@ -78,9 +78,9 @@ Will create fonts into `'dist/fonts/ariel/'`.
 
 ### embed:
 
-Type: `array`
-Default: `[]`
-Valid values: `['woff', 'ttf']`
+**Type**: `array`
+**Default**: `[]`
+**Valid values**: `['woff', 'ttf']`
 
 Type of fonts to embed directly into the generated css file as a data-uri instead of creating files for them.
 
