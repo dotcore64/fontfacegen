@@ -24,7 +24,7 @@
     "pretest": "npm run lint",
     "build": "babel src --out-dir lib",
     "prepublish": "npm run build",
-    "test": "babel-node test.js"
+    "test": "babel-node test.js && babel-node test.js"
   },
   "main": "index.js",
   "keywords": [
