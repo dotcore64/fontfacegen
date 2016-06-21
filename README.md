@@ -11,11 +11,10 @@ font to be used in browsers.
 ## Requirements:
 
 - `fontforge`
-- `batik-ttf2svg`
 
 ### Installing on OS X
 
-    brew install fontforge batik
+    brew install fontforge
 
 ### Other platforms
 
