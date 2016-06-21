@@ -1,22 +1,20 @@
-'use strict';
-
-var os = require('os');
+const os = require('os');
 
 function has(haystack, needle) {
-    return haystack.indexOf(needle) !== -1;
+  return haystack.indexOf(needle) !== -1;
 }
 
 function quote(str) {
-    return '"' + str + '"';
+  return `"${str}"`;
 }
 
 function merge(destination, source) {
-    for (var property in source) {
-        if (source.hasOwnProperty(property)) {
-            destination[property] = source[property];
-        }
+  Object.keys(source).forEach(property => {
+    if (source.hasOwnProperty(property)) {
+      destination[property] = source[property]; // eslint-disable-line no-param-reassign
     }
-    return destination;
+  });
+  return destination;
 }
 
 function trim(buffer) {
@@ -37,16 +35,14 @@ function removeNewLines(buffer) {
 
 function uniqueChars(subset) {
   return (typeof subset === 'string' ? subset.split('') : subset)
-    .filter(function(ch, i, chars) {
-      return chars.indexOf(ch) === i;
-    });
+    .filter((ch, i, chars) => chars.indexOf(ch) === i);
 }
 
 function charToHex(ch) {
   return ch.charCodeAt(0).toString(16);
 }
 
-var _isLinux = os.type().toLowerCase() == "linux";
+const _isLinux = os.type().toLowerCase() === 'linux';
 
 function isLinux() {
   return _isLinux;
