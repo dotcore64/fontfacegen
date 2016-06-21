@@ -2,6 +2,14 @@
 
 > Breaking / Enhancements / Bug Fixes
 
+## 0.2.1
+
+##### Enhancements
+
+* No more external dependencies ( just `fontforge` )
+  [Julian Grinblat](https://github.com/perrin4869)
+  [#36](https://github.com/agentk/fontfacegen/pull/36)
+
 ## 0.2.0
 
 ##### Enhancements
