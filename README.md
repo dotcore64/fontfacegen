@@ -121,6 +121,7 @@ Note: If present, the json config file must be valid json.
             fontfacegen({
                 source: path.join(source, font),
                 dest: dest,
+                css: dest + 'css/' + fontname + '.css',
                 css_fontpath: '../fonts/',
                 embed: ['ttf'],
                 subset: 'abcdef',
