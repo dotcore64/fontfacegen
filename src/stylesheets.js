@@ -81,12 +81,13 @@ function scss(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, 
       resultLines.push('         url("' + filename + '.svg#' + name + '") format("svg");');
     }
 
-    resultLines.push()
-      '         url("' + filename + '.svg#' + name + '") format("svg");'
+    resultLines.push(
+      '         url("' + filename + '.svg#' + name + '") format("svg");',
       '    font-weight: ' + weight + ';',
       '    font-style: ' + style + ';',
       '}'
-
+    );
+    
     var result = resultLines.join("\n");
 
     fs.writeFileSync(stylesheet, result);
@@ -100,6 +101,8 @@ module.exports = function(config) {
     filename   = (config.collate)
         ? path.join(config.css_fontpath, config.basename, config.basename)
         : path.join(config.css_fontpath, config.basename);
+        
+    filename   = filename.replace(/\//g,'\\');    
     weight     = config.weight;
     style      = config.style;
     woff2      = '"' + filename + '.woff2"';
