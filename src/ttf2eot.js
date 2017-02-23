@@ -1,17 +1,29 @@
-const ttf2eot = require('ttf2eot');
-const fs = require('fs');
+'use strict';
 
-const FontFaceException = require('./exception.js');
+var quote = require('./helpers.js').quote;
+var trim = require('./helpers.js').trim;
+var execSync = require('child_process').execSync;
 
-module.exports = (source, dest) => {
-  try {
-    const ttf = new Uint8Array(fs.readFileSync(source));
-    const eot = new Buffer(ttf2eot(ttf).buffer);
+var FontFaceException = require('./exception.js');
 
-    fs.writeFileSync(dest, eot);
-  } catch (e) {
-    throw new FontFaceException(
-      `eot conversion failed: ${e.toString()}\n` +
-      'Your EOT file will probably not be in a working state');
-  }
+var ttf2eotCommand = require('./commands.js').ttf2eot;
+
+module.exports = function(source, dest) {
+
+    var command = [ttf2eotCommand, quote(source), '>', quote(dest)].join(' ');
+
+    try {
+
+        var result = execSync(command).toString();
+
+    } catch (e) {
+
+        throw new FontFaceException(
+            'ttf2eot command failed: ' + e.toString() + '\n' +
+            'From command: ' + command + '\n' +
+            trim(result) + '\n' +
+            'Your EOT file will probably not be in a working state');
+    }
+
+    return result;
 };

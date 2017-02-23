@@ -1,28 +1,32 @@
-const fs = require('fs');
-const path = require('path');
-const { removeNewLines } = require('./helpers');
+'use strict';
+
+var fs = require('fs');
+var path = require('path');
+var removeNewLines = require('./helpers').removeNewLines;
 
 // Encode font file to data:uri and *remove* source file.
-function encode(fontFile) {
-  const dataUri = fs.readFileSync(fontFile, 'base64'); // Convert to data:uri
-  const type = path.extname(fontFile).substring(1);
-  const fontUrl = `'data:application/x-font-${type};charset=utf-8;base64,${dataUri}'`;
+module.exports = function (fontFile) {
+    var dataUri, type, fontUrl;
 
-  // Remove source file
-  fs.unlinkSync(fontFile);
+    // Convert to data:uri
+    dataUri = fs.readFileSync(fontFile, 'base64');
+    type = path.extname(fontFile).substring(1);
+    fontUrl = '\'data:application/x-font-' + type + ';charset=utf-8;base64,' + dataUri + '\'';
 
-  return fontUrl;
+    // Remove source file
+    fs.unlinkSync(fontFile);
+
+    return fontUrl;
 }
 
-function svg(fontFile) {
-  const dataUri = removeNewLines(fs.readFileSync(fontFile));
-  const fontUrl = `'data:image/svg+xml;charset=utf8,${dataUri}'`;
+module.exports.svg = function(fontFile) {
+    var dataUri, fontUrl;
 
-  // Remove source file
-  fs.unlinkSync(fontFile);
+    dataUri = removeNewLines(fs.readFileSync(fontFile));
+    fontUrl = '\'data:image/svg+xml;charset=utf8,' + dataUri + '\'';
 
-  return fontUrl;
+    // Remove source file
+    fs.unlinkSync(fontFile);
+
+    return fontUrl;
 }
-
-module.exports = encode;
-module.exports.svg = svg;
