@@ -1,21 +1,13 @@
-const fontforge = require('./fontforge.js');
-const { uniqueChars, charToHex } = require('./helpers.js');
+'use strict';
 
-module.exports = (source, target, name, opts = {}) => {
-  const subset = opts.subset;
-  let subsetCmd = '';
+var fontforge = require('./fontforge.js');
 
-  if (subset) {
-    subsetCmd = uniqueChars(subset)
-      .map(ch => `SelectFewer(0u${charToHex(ch)});`)
-      .join('');
-    subsetCmd = `SelectWorthOutputting();${subsetCmd}DetachAndRemoveGlyphs();`;
-  }
-
-  return fontforge(
-    source,
-    `Open($1);SetFontNames($3,$3,$3);${subsetCmd}Generate($2, "", 8);`,
-    target,
-    name
-  );
+module.exports = function(source, target, name) {
+	
+    return fontforge(
+      source,
+      'Open($1);SetFontNames($3,$3,$3);Generate($2, "", 8);',
+      target,
+      name
+    );
 };
