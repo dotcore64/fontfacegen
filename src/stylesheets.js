@@ -26,9 +26,11 @@ function css(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, e
     '}'
   );
 
-  const result = resultLines.join('\n');
+  let result = resultLines.join('\n');
 
-  fs.writeFileSync(stylesheet, result);
+  if ( fs.existsSync(stylesheet) ) result = '\n' + result;
+
+  fs.appendFileSync(stylesheet, result);
   return result;
 }
 
@@ -55,9 +57,11 @@ function less(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, 
     '}'
   );
 
-  const result = resultLines.join('\n');
+  let result = resultLines.join('\n');
 
-  fs.writeFileSync(stylesheet, result);
+  if ( fs.existsSync(stylesheet) ) result = '\n' + result;
+
+  fs.appendFileSync(stylesheet, result);
   return result;
 }
 
@@ -85,9 +89,11 @@ function scss(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, 
     '}'
   );
 
-  const result = resultLines.join('\n');
+  let result = resultLines.join('\n');
+  
+  if ( fs.existsSync(stylesheet) ) result = '\n' + result;
 
-  fs.writeFileSync(stylesheet, result);
+  fs.appendFileSync(stylesheet, result);
   return result;
 }
 
