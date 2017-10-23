@@ -2,6 +2,13 @@
 
 > Breaking / Enhancements / Bug Fixes
 
+## 0.3.0
+
+* Fixed an issue where if this library was called
+  on top of the same CSS file, it would replace
+  the content. Now it will append it.
+* Bump ttf2svg to 1.1.0
+
 ## 0.2.1
 
 ##### Enhancements
