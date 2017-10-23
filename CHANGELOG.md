@@ -2,6 +2,11 @@
 
 > Breaking / Enhancements / Bug Fixes
 
+## 0.3.1
+
+* Fixed a publishing issue where the lib folder
+  was missing in the NPM package.
+
 ## 0.3.0
 
 * Fixed an issue where if this library was called
