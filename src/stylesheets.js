@@ -28,7 +28,7 @@ function css(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, e
 
   let result = resultLines.join('\n');
 
-  if ( fs.existsSync(stylesheet) ) result = '\n' + result;
+  if (fs.existsSync(stylesheet)) result = `\n${result}`;
 
   fs.appendFileSync(stylesheet, result);
   return result;
@@ -59,7 +59,7 @@ function less(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, 
 
   let result = resultLines.join('\n');
 
-  if ( fs.existsSync(stylesheet) ) result = '\n' + result;
+  if (fs.existsSync(stylesheet)) result = `\n${result}`;
 
   fs.appendFileSync(stylesheet, result);
   return result;
@@ -90,8 +90,8 @@ function scss(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, 
   );
 
   let result = resultLines.join('\n');
-  
-  if ( fs.existsSync(stylesheet) ) result = '\n' + result;
+
+  if (fs.existsSync(stylesheet)) result = `\n${result}`;
 
   fs.appendFileSync(stylesheet, result);
   return result;
