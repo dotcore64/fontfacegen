@@ -23,7 +23,7 @@ function FontForgeException(e, cmd) {
 }
 
 function fontforge(source, script, target, name) {
-  let cmd = `${fontForgeCommand} -lang=ff -c '${script}' '${source}'`;
+  let cmd = `"${fontForgeCommand}" -lang=ff -c '${script}' '${source}'`;
 
   if (target !== undefined) {
     cmd += ` '${target}'`;
