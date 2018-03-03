@@ -5,13 +5,14 @@ const { has } = require('./helpers.js');
 
 function css(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, embedSvg) {
   const resultLines = [
-    '@font-face {',
-    `    font-family: "${name}";`,
-    `    src: url("${filename}.eot");`,
-    `    src: url("${filename}.eot?#iefix") format("embedded-opentype"),`,
-    `         url(${woff2}) format("woff2"),`,
-    `         url(${woff}) format("woff"),`,
-    `         url(${ttf}) format("ttf"),`,
+      '@font-face {',
+      `    font-family: "${name}";`,
+      `    src: url("${filename}.eot");`,
+      `    src: local("☺︎"),`,
+      `         url("${filename}.eot?#iefix") format("embedded-opentype"),`,
+      `         url(${woff2}) format("woff2"),`,
+      `         url(${woff}) format("woff"),`,
+      `         url(${ttf}) format("ttf"),`,
   ];
 
   if (embedSvg) {
@@ -36,13 +37,14 @@ function css(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, e
 
 function less(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, embedSvg) {
   const resultLines = [
-    '@font-face {',
-    `    font-family: "${name}";`,
-    `    src: url("${filename}.eot");`,
-    `    src: url("${filename}.eot?#iefix") format("embedded-opentype"),`,
-    `         url(${woff2}) format("woff2"),`,
-    `         url(${woff}) format("woff"),`,
-    `         url(${ttf}) format("ttf"),`,
+      '@font-face {',
+      `    font-family: "${name}";`,
+      `    src: url("${filename}.eot");`,
+      `    src: local("☺︎"),`,
+      `         url("${filename}.eot?#iefix") format("embedded-opentype"),`,
+      `         url(${woff2}) format("woff2"),`,
+      `         url(${woff}) format("woff"),`,
+      `         url(${ttf}) format("ttf"),`,
   ];
 
   if (embedSvg) {
@@ -70,7 +72,8 @@ function scss(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, 
     '@font-face {',
     `    font-family: "${name}";`,
     `    src: url("${filename}.eot");`,
-    `    src: url("${filename}.eot?#iefix") format("embedded-opentype"),`,
+    `    src: local("☺︎"),`,
+    `         url("${filename}.eot?#iefix") format("embedded-opentype"),`,
     `         url(${woff2}) format("woff2"),`,
     `         url(${woff}) format("woff"),`,
     `         url(${ttf}) format("ttf"),`,
