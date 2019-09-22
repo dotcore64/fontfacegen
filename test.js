@@ -32,7 +32,7 @@ const sourcefile = `${source}${filename}`;
 cleanup(source, dest)
   .then(downloadFileIfMissing(fileurl, sourcefile))
   .then(processFont(sourcefile, dest))
-  .catch(err => {
+  .catch((err) => {
     console.error('ERROR TRACE: ', err); // eslint-disable-line no-console
   });
 
@@ -46,7 +46,7 @@ function cleanup(source, dest) {
 
 function downloadFileIfMissing(url, dest) {
   return () => new Promise((resolve, reject) => {
-    fs.access(dest, err => {
+    fs.access(dest, (err) => {
       if (!err) {
         return resolve();
       }
@@ -59,12 +59,12 @@ function download(url, dest) {
   return new Promise((resolve, reject) => {
     const file = fs.createWriteStream(dest);
 
-    https.get(url, response => {
+    https.get(url, (response) => {
       response.pipe(file);
       file.on('finish', () => {
         file.close(resolve);
       });
-    }).on('error', err => {
+    }).on('error', (err) => {
       fs.unlink(dest);
       reject(err.message);
     });

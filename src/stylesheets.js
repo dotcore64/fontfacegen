@@ -23,7 +23,7 @@ function css(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, e
   resultLines.push(
     `    font-style: ${style};`,
     `    font-weight: ${weight};`,
-    '}'
+    '}',
   );
 
   let result = resultLines.join('\n');
@@ -54,7 +54,7 @@ function less(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, 
   resultLines.push(
     `    font-weight: ${weight};`,
     `    font-style: ${style};`,
-    '}'
+    '}',
   );
 
   let result = resultLines.join('\n');
@@ -86,7 +86,7 @@ function scss(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, 
     `         url("${filename}.svg#${name}") format("svg");`,
     `    font-weight: ${weight};`,
     `    font-style: ${style};`,
-    '}'
+    '}',
   );
 
   let result = resultLines.join('\n');
@@ -97,19 +97,19 @@ function scss(stylesheet, name, filename, weight, style, woff2, woff, ttf, svg, 
   return result;
 }
 
-module.exports = config => {
+module.exports = (config) => {
   let woff;
   let woff2;
   let ttf;
   let svg;
   let embedSvg;
 
-  const name = config.name;
+  const { name } = config;
   const filename = (config.collate)
     ? path.join(config.css_fontpath, config.basename, config.basename)
     : path.join(config.css_fontpath, config.basename);
-  const weight = config.weight;
-  const style = config.style;
+  const { weight } = config;
+  const { style } = config;
 
   woff2 = `"${filename}.woff2"`;
   woff = `"${filename}.woff"`;

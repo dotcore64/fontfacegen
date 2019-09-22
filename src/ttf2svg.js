@@ -10,7 +10,8 @@ module.exports = (source, target) => {
     fs.writeFileSync(target, svg);
   } catch (e) {
     throw new FontFaceException(
-      `svg conversion failed: ${e.toString()}\n` +
-      'Your SVG file will probably not be in a working state');
+      `svg conversion failed: ${e.toString()}\n`
+      + 'Your SVG file will probably not be in a working state',
+    );
   }
 };

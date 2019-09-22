@@ -1,9 +1,9 @@
 const path = require('path');
 const fs = require('fs');
-const merge = require('./helpers.js').merge;
+const { merge } = require('./helpers.js');
 const fontforge = require('./fontforge.js');
 
-module.exports = options => {
+module.exports = (options) => {
   const _ = {
     source: options.source,
     dest_dir: options.dest,

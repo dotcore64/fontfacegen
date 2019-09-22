@@ -1,4 +1,4 @@
-const execSync = require('child_process').execSync;
+const { execSync } = require('child_process');
 
 const fontForgeCommand = require('./commands.js').fontforge;
 
@@ -17,8 +17,8 @@ const weightTable = {
 };
 
 function FontForgeException(e, cmd) {
-  this.message = `FontForge command failed: ${e.toString()}\n` +
-    `From command: ${cmd}`;
+  this.message = `FontForge command failed: ${e.toString()}\n`
+    + `From command: ${cmd}`;
   this.name = 'FontForgeException';
 }
 

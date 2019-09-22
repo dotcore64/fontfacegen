@@ -9,8 +9,8 @@ function quote(str) {
 }
 
 function merge(destination, source) {
-  Object.keys(source).forEach(property => {
-    if (source.hasOwnProperty(property)) {
+  Object.keys(source).forEach((property) => {
+    if (Object.prototype.hasOwnProperty.call(source, property)) {
       destination[property] = source[property]; // eslint-disable-line no-param-reassign
     }
   });

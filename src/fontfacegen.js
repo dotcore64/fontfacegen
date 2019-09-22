@@ -8,7 +8,7 @@ const ttf2eot = require('./ttf2eot.js');
 const ttf2svg = require('./ttf2svg.js');
 const stylesheets = require('./stylesheets.js');
 
-module.exports = options => {
+module.exports = (options) => {
   const config = configure(options);
 
   mkdirp(config.dest_dir);
