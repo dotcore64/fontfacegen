@@ -24,7 +24,7 @@
     "pretest": "npm run lint",
     "build": "babel src --out-dir lib",
     "prepublish": "npm run build",
-    "test": "babel-node test.js && babel-node test.js"
+    "test": "node -r @babel/register test.js"
   },
   "main": "index.js",
   "keywords": [
@@ -52,6 +52,7 @@
     "@babel/cli": "^7.6.0",
     "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
+    "@babel/register": "^7.6.0",
     "eslint": "^6.4.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2"
