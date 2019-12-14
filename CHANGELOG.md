@@ -2,6 +2,12 @@
 
 > Breaking / Enhancements / Bug Fixes
 
+## 0.4.0
+
+* Drop support for node < 8
+* Add support for node 12
+* Upgrade all dependencies
+
 ## 0.3.1
 
 * Fixed a publishing issue where the lib folder
