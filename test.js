@@ -23,7 +23,7 @@ const fontfacegen = require('./src/fontfacegen.js');
 
 const source = 'tmp/';
 const dest = 'tmp/dest/';
-const fileurl = 'https://raw.githubusercontent.com/google/fonts/master/apache/opensans/OpenSans-Regular.ttf';
+const fileurl = 'https://github.com/edx/edx-fonts/blob/master/open-sans/fonts/Regular/OpenSans-Regular.ttf?raw=true';
 const filename = 'OpenSans-Regular.ttf';
 const sourcefile = `${source}${filename}`;
 
