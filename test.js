@@ -23,7 +23,7 @@ const fontfacegen = require('./src/fontfacegen.js');
 
 const source = 'tmp/';
 const dest = 'tmp/dest/';
-const fileurl = 'https://raw.githubusercontent.com/google/fonts/master/apache/opensans/OpenSans-Regular.ttf';
+const fileurl = 'https://raw.githubusercontent.com/googlefonts/opensans/main/fonts/ttf/OpenSans-Regular.ttf';
 const filename = 'OpenSans-Regular.ttf';
 const sourcefile = `${source}${filename}`;
 
@@ -34,6 +34,7 @@ cleanup(source, dest)
   .then(processFont(sourcefile, dest))
   .catch((err) => {
     console.error('ERROR TRACE: ', err); // eslint-disable-line no-console
+    process.exit(1);
   });
 
 // -----
@@ -73,16 +74,20 @@ function download(url, dest) {
 
 function processFont(source, dest) {
   return () => {
-    fontfacegen({
-      source,
-      dest,
-      css_fontpath: '../fonts/',
-      css: 'tmp/dest/css/fonts.css',
-      less: 'tmp/dest/less/fonts.less',
-      scss: 'tmp/dest/scss/fonts.scss',
-      embed: ['ttf', 'woff', 'woff2', 'svg'],
-      collate: true,
-    });
+    try {
+      fontfacegen({
+        source,
+        dest,
+        css_fontpath: '../fonts/',
+        css: 'tmp/dest/css/fonts.css',
+        less: 'tmp/dest/less/fonts.less',
+        scss: 'tmp/dest/scss/fonts.scss',
+        embed: ['ttf', 'woff', 'woff2', 'svg'],
+        collate: true,
+      });
+    } catch (e) {
+      return Promise.reject(e);
+    }
 
     return Promise.resolve();
   };
