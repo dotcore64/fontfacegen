@@ -19,7 +19,8 @@
 const child = require('child_process');
 const fs = require('fs');
 const https = require('https');
-const fontfacegen = require('./src/fontfacegen.js');
+
+const fontfacegen = require('./lib/fontfacegen.js');
 
 const source = 'tmp/';
 const dest = 'tmp/dest/';
