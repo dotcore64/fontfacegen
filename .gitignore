@@ -1,4 +1,4 @@
 node_modules
-tmp
 npm-debug.log
-lib
+tmp
+.eslintcache
