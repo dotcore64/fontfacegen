@@ -33,12 +33,10 @@ function fontforge(source, script, target, name) {
     cmd += ` '${name}'`;
   }
 
-  cmd += ' 2> /dev/null';
-
   let result;
 
   try {
-    result = execSync(cmd).toString();
+    result = execSync(cmd, { stdio: ['pipe', 'pipe', process.stderr] }).toString();
   } catch (e) {
     throw new FontForgeException(e, cmd);
   }
