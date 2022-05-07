@@ -4,7 +4,7 @@
 
 ## 0.5.0
 
-* Drop support for node < 12
+* Drop support for node < 14
 * Upgrade all dependencies
 * Move to [dotcore64](https://github.com/dotcore64) org
 
