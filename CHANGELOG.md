@@ -2,6 +2,12 @@
 
 > Breaking / Enhancements / Bug Fixes
 
+## 0.5.0
+
+* Drop support for node < 12
+* Upgrade all dependencies
+* Move to [dotcore64](https://github.com/dotcore64) org
+
 ## 0.4.0
 
 * Drop support for node < 8

@@ -2,7 +2,7 @@
   "name": "fontfacegen",
   "description": "Browser font-face generator for creating browser usable fonts from ttf's or otf's",
   "version": "0.4.0",
-  "homepage": "https://github.com/agentk/fontfacegen",
+  "homepage": "https://github.com/dotcore64/fontfacegen",
   "author": {
     "name": "Karl Bowden",
     "email": "karlbowden@gmail.com",
@@ -10,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/agentk/fontfacegen.git"
+    "url": "git://github.com/dotcore64/fontfacegen.git"
   },
   "bugs": {
-    "url": "https://github.com/agentk/fontfacegen/issues"
+    "url": "https://github.com/dotcore64/fontfacegen/issues"
   },
   "license": "Apache-2.0",
   "engines": {
@@ -23,7 +23,6 @@
     "lint": "eslint --cache .",
     "test": "node test.js"
   },
-  "main": "index.js",
   "keywords": [
     "font-face",
     "fontface",

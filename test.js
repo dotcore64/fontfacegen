@@ -1,6 +1,6 @@
 /**
  * test.js
- * https://github.com/agentk/fontfacegen
+ * https://github.com/dotcore64/fontfacegen
  *
  * Copyright 2015 Karl Bowden
  * Licensed under the Apache License, Version 2.0 (the "License");

@@ -1,6 +1,10 @@
 
 # fontfacegen
 
+[![Build Status][build-badge]][build]
+[![npm package][npm-badge]][npm]
+[![Coverage Status][coveralls-badge]][coveralls]
+
 From a ttf or otf, generate the required ttf, eot, woff, svg and css for the
 font to be used in browsers.
 
@@ -10,16 +14,19 @@ font to be used in browsers.
 
 ## Requirements:
 
-- `fontforge`
+- [`fontforge`](https://fontforge.org/docs/)
 
-### Installing on OS X
+### Installing fontforge
+
+On MacOS:
 
     brew install fontforge
 
-### Other platforms
+On Ubuntu:
 
-Help is required to get `fontfacegen` running on Window and Linux.
-Any documentation on running on these platforms would be greatly appreciated.
+    apt install fontforge
+
+On other platforms, please refer to the [fontforge documentation](https://fontforge.org/docs/).
 
 ## Usage:
 
@@ -46,7 +53,7 @@ Path to the destination file to write the generated stylesheet to.
 
 **Default**: `null` (Guess the css filename from the font filename)
 
-### css_fontpath:
+### css\_fontpath:
 
 Path to the font files relative to the css generated.
 
@@ -128,3 +135,12 @@ Note: If present, the json config file must be valid json.
             });
         }
     };
+
+[build-badge]: https://img.shields.io/github/workflow/status/dotcore64/fontfacegen/test/master?style=flat-square
+[build]: https://github.com/dotcore64/fontfacegen/actions
+
+[npm-badge]: https://img.shields.io/npm/v/fontfacegen.svg?style=flat-square
+[npm]: https://www.npmjs.org/package/fontfacegen
+
+[coveralls-badge]: https://img.shields.io/coveralls/dotcore64/fontfacegen/master.svg?style=flat-square
+[coveralls]: https://coveralls.io/r/dotcore64/fontfacegen
