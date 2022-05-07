@@ -30,7 +30,7 @@ On other platforms, please refer to the [fontforge documentation](https://fontfo
 
 ## Usage:
 
-    var fontfacegen = require('fontfacegen');
+    import fontfacegen from 'fontfacegen';
 
     var result = fontfacegen({
         source: '/path/to/source.{ttf,otf}',
@@ -110,18 +110,18 @@ Note: If present, the json config file must be valid json.
 ## Complete example:
 
 
-    var fs          = require('fs');
-    var path        = require('path');
-    var fontfacegen = require('./fontfacegen');
+    import { readdirSync } from 'node:fs';
+    import { join, extname, basename } from 'node:path';
+    import fontfacegen from 'fontfacegen';
 
     var source = 'tmp/';
     var dest   = 'tmp/dest/';
-    var fonts  = fs.readdirSync(source);
+    var fonts  = readdirSync(source);
 
     for (var i = fonts.length - 1; i >= 0; i--) {
         var font = fonts[i];
-        var extension = path.extname(font);
-        var fontname = path.basename(font, extension);
+        var extension = extname(font);
+        var fontname = basename(font, extension);
 
         // Test with embedded ttf
         if (extension == '.ttf' || extension == '.otf') {
