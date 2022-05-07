@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/dotcore64/fontfacegen/issues"
   },
-  "license": "Apache-2.0",
+  "license": "MIT",
   "engines": {
     "node": ">= 14.0.0"
   },
