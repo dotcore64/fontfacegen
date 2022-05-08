@@ -16,11 +16,12 @@
  * governing permissions and limitations under the License.
  */
 
-const child = require('child_process');
-const fs = require('fs');
-const https = require('https');
+import child from 'node:child_process';
+import fs from 'node:fs';
+import https from 'node:https';
 
-const fontfacegen = require('..');
+// eslint-disable-next-line import/no-unresolved
+import fontfacegen from 'fontfacegen';
 
 const source = 'tmp/';
 const dest = 'tmp/dest/';

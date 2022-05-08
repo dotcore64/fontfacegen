@@ -2,6 +2,10 @@
 
 > Breaking / Enhancements / Bug Fixes
 
+## 1.0.0
+
+* Convert to esm module
+
 ## 0.5.0
 
 * Drop support for node < 14
