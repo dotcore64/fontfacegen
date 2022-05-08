@@ -1,6 +1,6 @@
 {
-  "extends": ["airbnb-base", "plugin:node/recommended"],
-  "plugins": ["node"],
+  "extends": ["airbnb-base", "plugin:node/recommended", "plugin:unicorn/recommended"],
+  "plugins": ["node", "unicorn"],
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
@@ -9,6 +9,7 @@
     "no-underscore-dangle": 0,
     "no-shadow": 0,
     "no-use-before-define": 0,
-    "import/extensions": [2, { "js": "always" }]
+    "import/extensions": [2, { "js": "always" }],
+    "unicorn/prevent-abbreviations": 0
   }
 }
