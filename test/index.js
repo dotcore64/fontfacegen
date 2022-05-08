@@ -20,7 +20,7 @@ import child from 'node:child_process';
 import fs from 'node:fs';
 import https from 'node:https';
 
-// eslint-disable-next-line import/no-unresolved
+// eslint-disable-next-line import/no-unresolved,node/no-missing-import
 import fontfacegen from 'fontfacegen';
 
 const source = 'tmp/';
@@ -36,7 +36,7 @@ cleanup(source, dest)
   .then(processFont(sourcefile, dest))
   .catch((err) => {
     console.error('ERROR TRACE: ', err); // eslint-disable-line no-console
-    process.exit(1);
+    return Promise.reject(err);
   });
 
 // -----
