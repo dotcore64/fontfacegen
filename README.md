@@ -32,7 +32,7 @@ On other platforms, please refer to the [fontforge documentation](https://fontfo
 
     import fontfacegen from 'fontfacegen';
 
-    var result = fontfacegen({
+    const result = fontfacegen({
         source: '/path/to/source.{ttf,otf}',
         dest: '/destination/folder/',
     });
@@ -114,14 +114,14 @@ Note: If present, the json config file must be valid json.
     import { join, extname, basename } from 'node:path';
     import fontfacegen from 'fontfacegen';
 
-    var source = 'tmp/';
-    var dest   = 'tmp/dest/';
-    var fonts  = readdirSync(source);
+    const source = 'tmp/';
+    const dest   = 'tmp/dest/';
+    const fonts  = readdirSync(source);
 
-    for (var i = fonts.length - 1; i >= 0; i--) {
-        var font = fonts[i];
-        var extension = extname(font);
-        var fontname = basename(font, extension);
+    for (const i = fonts.length - 1; i >= 0; i--) {
+        const font = fonts[i];
+        const extension = extname(font);
+        const fontname = basename(font, extension);
 
         // Test with embedded ttf
         if (extension == '.ttf' || extension == '.otf') {
