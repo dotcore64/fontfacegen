@@ -1,7 +1,7 @@
 version: 2
 updates:
     - package-ecosystem: npm
-      directory: "/"
+      directory: /
       versioning-strategy: increase
       schedule:
           interval: daily
@@ -9,8 +9,8 @@ updates:
           - perrin4869
       assignees:
           - perrin4869
-    - package-ecosystem: "github-actions"
-      directory: "/"
+    - package-ecosystem: github-actions
+      directory: /
       schedule:
           # Check for updates to GitHub Actions every weekday
-          interval: "daily"
+          interval: daily
