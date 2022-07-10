@@ -34,9 +34,9 @@ const sourcefile = `${source}${filename}`;
 cleanup(source, dest)
   .then(downloadFileIfMissing(fileurl, sourcefile))
   .then(processFont(sourcefile, dest))
-  .catch((err) => {
-    console.error('ERROR TRACE: ', err); // eslint-disable-line no-console
-    return Promise.reject(err);
+  .catch((error) => {
+    console.error('ERROR TRACE:', error); // eslint-disable-line no-console
+    throw error;
   });
 
 // -----
@@ -87,8 +87,8 @@ function processFont(source, dest) {
         embed: ['ttf', 'woff', 'woff2', 'svg'],
         collate: true,
       });
-    } catch (e) {
-      return Promise.reject(e);
+    } catch (error) {
+      return Promise.reject(error);
     }
 
     return Promise.resolve();
