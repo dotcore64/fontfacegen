@@ -16,5 +16,4 @@
  * governing permissions and limitations under the License.
  */
 
-// eslint-disable-next-line no-restricted-exports
-export { default } from './lib/fontfacegen.js';
+module.exports = require('./lib/fontfacegen.js');

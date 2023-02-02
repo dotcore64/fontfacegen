@@ -31,9 +31,9 @@ On other platforms, please refer to the [fontforge documentation](https://fontfo
 ## Usage:
 
 ```javascript
-import fontfacegen from 'fontfacegen';
+var fontfacegen = require('fontfacegen');
 
-const result = fontfacegen({
+var result = fontfacegen({
     source: '/path/to/source.{ttf,otf}',
     dest: '/destination/folder/',
 });
@@ -116,18 +116,18 @@ Note: If present, the json config file must be valid json.
 ## Complete example:
 
 ```javascript
-import { readdirSync } from 'node:fs';
-import { join, extname, basename } from 'node:path';
-import fontfacegen from 'fontfacegen';
+var fs          = require('fs');
+var path        = require('path');
+var fontfacegen = require('./fontfacegen');
 
-const source = 'tmp/';
-const dest   = 'tmp/dest/';
-const fonts  = readdirSync(source);
+var source = 'tmp/';
+var dest   = 'tmp/dest/';
+var fonts  = fs.readdirSync(source);
 
-for (const i = fonts.length - 1; i >= 0; i--) {
-    const font = fonts[i];
-    const extension = extname(font);
-    const fontname = basename(font, extension);
+for (var i = fonts.length - 1; i >= 0; i--) {
+    var font = fonts[i];
+    var extension = path.extname(font);
+    var fontname = path.basename(font, extension);
 
     // Test with embedded ttf
     if (extension == '.ttf' || extension == '.otf') {

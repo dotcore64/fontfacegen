@@ -1,17 +1,12 @@
 {
   "name": "fontfacegen",
   "description": "Browser font-face generator for creating browser usable fonts from ttf's or otf's",
-  "type": "module",
   "version": "0.5.0",
   "homepage": "https://github.com/dotcore64/fontfacegen",
   "author": {
     "name": "Karl Bowden",
     "email": "karlbowden@gmail.com",
     "url": "http://karlbowden.com/"
-  },
-  "exports": {
-    ".": "./index.js",
-    "./package.json": "./package.json"
   },
   "repository": {
     "type": "git",
