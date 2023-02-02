@@ -30,12 +30,14 @@ On other platforms, please refer to the [fontforge documentation](https://fontfo
 
 ## Usage:
 
-    import fontfacegen from 'fontfacegen';
+```javascript
+import fontfacegen from 'fontfacegen';
 
-    const result = fontfacegen({
-        source: '/path/to/source.{ttf,otf}',
-        dest: '/destination/folder/',
-    });
+const result = fontfacegen({
+    source: '/path/to/source.{ttf,otf}',
+    dest: '/destination/folder/',
+});
+```
 
 ## Options:
 
@@ -73,11 +75,13 @@ Append the source filename to the destination directory in order to collate gene
 
 **IE**:
 
-    options = {
-        source: 'src/fonts/ariel.ttf',
-        dest: 'dist/fonts/',
-        collate: true
-    }
+```javascript
+options = {
+    source: 'src/fonts/ariel.ttf',
+    dest: 'dist/fonts/',
+    collate: true
+}
+```
 
 Will create fonts into `'dist/fonts/ariel/'`.
 
@@ -98,43 +102,46 @@ For example, for the font: `fonts/sans.ttf` the config file would be: `fonts/san
 
 Example file format:
 
-    {
-        "name"   : "Super Sans",
-        "weight" : "400",
-        "style"  : "normal"
-    }
+```json
+{
+    "name"   : "Super Sans",
+    "weight" : "400",
+    "style"  : "normal"
+}
+```
 
 Note: If present, the json config file must be valid json.
 
 
 ## Complete example:
 
+```javascript
+import { readdirSync } from 'node:fs';
+import { join, extname, basename } from 'node:path';
+import fontfacegen from 'fontfacegen';
 
-    import { readdirSync } from 'node:fs';
-    import { join, extname, basename } from 'node:path';
-    import fontfacegen from 'fontfacegen';
+const source = 'tmp/';
+const dest   = 'tmp/dest/';
+const fonts  = readdirSync(source);
 
-    const source = 'tmp/';
-    const dest   = 'tmp/dest/';
-    const fonts  = readdirSync(source);
+for (const i = fonts.length - 1; i >= 0; i--) {
+    const font = fonts[i];
+    const extension = extname(font);
+    const fontname = basename(font, extension);
 
-    for (const i = fonts.length - 1; i >= 0; i--) {
-        const font = fonts[i];
-        const extension = extname(font);
-        const fontname = basename(font, extension);
-
-        // Test with embedded ttf
-        if (extension == '.ttf' || extension == '.otf') {
-            fontfacegen({
-                source: path.join(source, font),
-                dest: dest,
-                css_fontpath: '../fonts/',
-                embed: ['ttf'],
-                subset: 'abcdef',
-                collate: true
-            });
-        }
-    };
+    // Test with embedded ttf
+    if (extension == '.ttf' || extension == '.otf') {
+        fontfacegen({
+            source: path.join(source, font),
+            dest: dest,
+            css_fontpath: '../fonts/',
+            embed: ['ttf'],
+            subset: 'abcdef',
+            collate: true
+        });
+    }
+};
+```
 
 ## License
 
