@@ -2,9 +2,13 @@
 
 > Breaking / Enhancements / Bug Fixes
 
-## 1.0.0
+## 1.0.0 (unreleased)
 
 * Convert to esm module
+
+## 0.5.1
+
+* fix build badge
 
 ## 0.5.0
 
