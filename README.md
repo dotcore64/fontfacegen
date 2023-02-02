@@ -140,7 +140,7 @@ Note: If present, the json config file must be valid json.
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
 
-[build-badge]: https://img.shields.io/github/workflow/status/dotcore64/fontfacegen/test/master?style=flat-square
+[build-badge]: https://img.shields.io/github/actions/workflow/status/dotcore64/fontfacegen/test.yml?event=push&style=flat-square
 [build]: https://github.com/dotcore64/fontfacegen/actions
 
 [npm-badge]: https://img.shields.io/npm/v/fontfacegen.svg?style=flat-square
