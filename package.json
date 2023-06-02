@@ -47,7 +47,7 @@
     "ttf2eot": "^3.1.0",
     "ttf2svg": "^1.2.0",
     "ttf2woff2": "^5.0.0",
-    "which": "^3.0.0"
+    "which": "^3.0.1"
   },
   "devDependencies": {
     "c8": "^7.14.0",
