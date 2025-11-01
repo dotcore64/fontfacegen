@@ -3,6 +3,10 @@ on:
   release:
     types: [published]
 
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
 jobs:
   publish:
 
@@ -14,7 +18,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: '24'
         registry-url: 'https://registry.npmjs.org'
 
     - name: Install dependencies
@@ -31,8 +35,5 @@ jobs:
     - name: Test
       run: npm test
 
-    - uses: mmarchini-oss/npm-otp-publish@v0
-      with:
-        npm_token: ${{ secrets.NPM_TOKEN }}
-        github_actor: ${{ github.actor }}
-        notifier: console
+    - name: Publish
+      run: npm publish
